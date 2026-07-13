@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard | DP.PORTFOLIO</title>
+    <meta name="description" content="Manage your premium photography galleries.">
+    <link rel="canonical" href="https://client.dominikphotofficial.lt/dashboard.html">
+    <meta property="og:title" content="Client Dashboard | DP.PORTFOLIO">
+    <meta property="og:image" content="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
+    <meta property="og:url" content="https://client.dominikphotofficial.lt/dashboard.html">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html"><img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO Logo" class="logo"></a>
+        <div class="header-actions">
+            <div class="lang-switcher">
+                <button data-lang="en" class="lang-btn active">EN</button>
+                <span>|</span>
+                <button data-lang="lt" class="lang-btn">LT</button>
+            </div>
+            <button id="logout-btn" class="btn-outline">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span data-i18n="logout">Logout</span>
+            </button>
+        </div>
+    </header>
+    <main class="container">
+        <h1 class="page-title" data-i18n="my_galleries">My Galleries</h1>
+        <div id="loader" class="loader hidden"></div>
+        <div id="dashboard-grid" class="dashboard-grid"></div>
+    </main>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
