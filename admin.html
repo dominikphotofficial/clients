@@ -12,7 +12,6 @@
         <a href="index.html"><img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO Logo" class="logo"></a>
         <div class="header-actions">
             <div class="lang-switcher">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                 <button data-lang="en" class="lang-btn active">EN</button>
                 <span>|</span>
                 <button data-lang="lt" class="lang-btn">LT</button>
@@ -25,16 +24,34 @@
     </header>
     <main class="container">
         <div class="admin-section">
-            <h1 style="margin-bottom: 2rem; font-weight: 300;" data-i18n="admin_dashboard">Photographer Dashboard</h1>
-            <div class="form-group">
-                <label for="admin-code" data-i18n="admin_code_label">Gallery Code (e.g. dominik/vestuves or 3829/vestuves)</label>
-                <input type="text" id="admin-code" class="form-control">
+            <h1 class="page-title" data-i18n="admin_dashboard">Photographer Dashboard</h1>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="admin-name" data-i18n="client_name">Client Name</label>
+                    <input type="text" id="admin-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="admin-surname" data-i18n="client_surname">Client Surname</label>
+                    <input type="text" id="admin-surname" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="admin-code" data-i18n="admin_code_label">Gallery Code (e.g. dominik/vestuves)</label>
+                    <input type="text" id="admin-code" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="admin-price-single" data-i18n="price_single">Price per Photo (€)</label>
+                    <input type="number" id="admin-price-single" class="form-control" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="admin-price-full" data-i18n="price_full">Price for Full Gallery (€)</label>
+                    <input type="number" id="admin-price-full" class="form-control" step="0.01">
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 1rem;">
                 <label for="admin-files" data-i18n="admin_files_label">Select High-Resolution Images</label>
                 <input type="file" id="admin-files" class="form-control" multiple accept="image/*">
             </div>
-            <button id="upload-btn" class="btn">
+            <button id="upload-btn" class="btn" style="margin-top: 2rem;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                 <span data-i18n="create_upload">Create Gallery & Upload</span>
             </button>
