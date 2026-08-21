@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerija — DP.PORTFOLIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FBF9F6;
+            --accent-color: #113939;
+            --text-color: #1A2B2B;
+            --font-heading: 'Jost', sans-serif;
+            --font-body: 'Josefin Sans', sans-serif;
+            --cb: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+        header { padding: 40px 5vw; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: 4px; font-weight: 500; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 0 5vw 100px 5vw; }
+        .gallery-header { text-align: center; margin-bottom: 80px; }
+        .gallery-header h1 { font-family: var(--font-heading); font-size: clamp(1.8rem, 5vw, 3rem); text-transform: uppercase; letter-spacing: 6px; margin-bottom: 10px; }
+        .gallery-header p { text-transform: uppercase; letter-spacing: 3px; opacity: 0.6; font-size: 0.9rem; }
+        .divider { width: 40px; height: 1px; background: var(--accent-color); margin: 25px auto; }
+        .gallery-grid { column-count: 3; column-gap: 20px; }
+        .gallery-item { break-inside: avoid; margin-bottom: 20px; cursor: pointer; overflow: hidden; }
+        .gallery-item img { width: 100%; display: block; transition: transform 0.8s var(--cb); }
+        .gallery-item:hover img { transform: scale(1.03); }
+        .download-btn { display: inline-block; padding: 15px 35px; border: 1px solid var(--accent-color); color: var(--accent-color); text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 2px; font-size: 0.8rem; text-decoration: none; transition: 0.4s; }
+        .download-btn:hover { background: var(--accent-color); color: white; }
+        .review-section { max-width: 700px; margin: 100px auto 0 auto; padding: 60px 40px; background: white; border: 1px solid rgba(17,57,57,0.05); }
+        .form-input { width: 100%; padding: 15px 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); outline: none; font-family: var(--font-body); margin-bottom: 30px; font-size: 1rem; }
+        .form-label { font-family: var(--font-heading); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; color: var(--accent-color); }
+        .lightbox { position: fixed; inset: 0; background: rgba(251,249,246,0.98); display: none; z-index: 1000; justify-content: center; align-items: center; }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90%; max-height: 85vh; object-fit: contain; }
+        .lb-close { position: absolute; top: 40px; right: 40px; font-size: 1.5rem; cursor: pointer; }
+        @media (max-width: 1024px) { .gallery-grid { column-count: 2; } }
+        @media (max-width: 600px) { .gallery-grid { column-count: 1; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">DP.PORTFOLIO</div>
+        <a id="zipLink" href="#" class="download-btn" style="display: none;">Archyvas (.zip)</a>
+    </header>
+
+    <main class="container">
+        <div class="gallery-header">
+            <h1 id="gTitle">Kraunama...</h1>
+            <p id="gSubtitle"></p>
+            <div class="divider"></div>
+        </div>
+
+        <div class="gallery-grid" id="grid"></div>
+
+        <section class="review-section">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 3px;">Palikite atsiliepimą</h2>
+            </div>
+            <form id="reviewForm">
+                <label class="form-label">Vardas</label>
+                <input type="text" id="revName" class="form-input" required>
+                <label class="form-label">Įvertinimas (1-5)</label>
+                <input type="number" id="revRate" class="form-input" min="1" max="5" value="5" required>
+                <label class="form-label">Jūsų žinutė</label>
+                <textarea id="revMsg" class="form-input" rows="3" required></textarea>
+                <button type="submit" class="download-btn" style="width: 100%; cursor: pointer;">Siųsti atsiliepimą</button>
+            </form>
+            <p id="revSuccess" style="display:none; text-align:center; margin-top:20px; color: green;">Ačiū! Atsiliepimas išsiųstas.</p>
+        </section>
+    </main>
+
+    <div class="lightbox" id="lb">
+        <span class="lb-close" id="lbClose">✕</span>
+        <img src="" id="lbImg">
+    </div>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const data = JSON.parse(sessionStorage.getItem('clientGallery'));
+        if (!data) window.location.href = 'index.html';
+
+        document.getElementById('gTitle').innerText = data.title;
+        document.getElementById('gSubtitle').innerText = data.subtitle;
+        if (data.zip_url) {
+            const zip = document.getElementById('zipLink');
+            zip.href = data.zip_url;
+            zip.style.display = 'block';
+        }
+
+        const grid = document.getElementById('grid');
+        data.photos.forEach(photo => {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            div.innerHTML = `<img src="${photo.thumb}">`;
+            div.onclick = () => {
+                document.getElementById('lbImg').src = photo.full;
+                document.getElementById('lb').classList.add('active');
+            };
+            grid.appendChild(div);
+        });
+
+        document.getElementById('lbClose').onclick = () => document.getElementById('lb').classList.remove('active');
+
+        document.getElementById('reviewForm').onsubmit = async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "reviews"), {
+                gallery: data.title,
+                name: document.getElementById('revName').value,
+                rating: document.getElementById('revRate').value,
+                text: document.getElementById('revMsg').value,
+                status: 'pending',
+                date: new Date().toISOString()
+            });
+            document.getElementById('reviewForm').style.display = 'none';
+            document.getElementById('revSuccess').style.display = 'block';
+        };
+    </script>
+</body>
+</html>
