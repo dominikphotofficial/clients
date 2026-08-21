@@ -1,66 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | DP.PORTFOLIO</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="style.css">
+    <title>Admin — DP.PORTFOLIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #FBF9F6; --accent: #113939; --font: 'Jost', sans-serif; }
+        body { background: var(--bg); font-family: 'Josefin Sans', sans-serif; padding: 50px; }
+        .admin-card { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border: 1px solid rgba(0,0,0,0.05); }
+        h1 { font-family: var(--font); text-transform: uppercase; letter-spacing: 4px; font-size: 1.5rem; margin-bottom: 30px; text-align: center; }
+        .form-input { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; outline: none; }
+        .btn { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
+        .upload-zone { border: 2px dashed #ccc; padding: 30px; text-align: center; margin-bottom: 20px; cursor: pointer; }
+        .hidden { display: none; }
+        #status { margin-top: 20px; font-size: 0.9rem; color: var(--accent); text-align: center; }
+    </style>
 </head>
 <body>
-    <header>
-        <a href="index.html"><img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO Logo" class="logo"></a>
-        <div class="header-actions">
-            <div class="lang-switcher">
-                <button data-lang="en" class="lang-btn active">EN</button>
-                <span>|</span>
-                <button data-lang="lt" class="lang-btn">LT</button>
-            </div>
-            <button id="logout-btn" class="btn-outline">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                <span data-i18n="logout">Logout</span>
-            </button>
-        </div>
-    </header>
-    <main class="container">
-        <div class="admin-section">
-            <h1 class="page-title" data-i18n="admin_dashboard">Photographer Dashboard</h1>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="admin-name" data-i18n="client_name">Client Name</label>
-                    <input type="text" id="admin-name" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="admin-surname" data-i18n="client_surname">Client Surname</label>
-                    <input type="text" id="admin-surname" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="admin-email" data-i18n="client_email">Client Email</label>
-                    <input type="email" id="admin-email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="admin-code" data-i18n="admin_code_label">Gallery Code (e.g. dominik/vestuves)</label>
-                    <input type="text" id="admin-code" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="admin-price-single" data-i18n="price_single">Price per Photo (€)</label>
-                    <input type="number" id="admin-price-single" class="form-control" step="0.01">
-                </div>
-                <div class="form-group">
-                    <label for="admin-price-full" data-i18n="price_full">Price for Full Gallery (€)</label>
-                    <input type="number" id="admin-price-full" class="form-control" step="0.01">
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 1rem;">
-                <label for="admin-files" data-i18n="admin_files_label">Select High-Resolution Images</label>
-                <input type="file" id="admin-files" class="form-control" multiple accept="image/*">
-            </div>
-            <button id="upload-btn" class="btn" style="margin-top: 2rem;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                <span data-i18n="create_upload">Create Gallery & Upload</span>
-            </button>
-        </div>
-    </main>
-    <script type="module" src="app.js"></script>
+    <div id="authPanel" class="admin-card">
+        <h1>Admin Prisijungimas</h1>
+        <input type="email" id="email" class="form-input" placeholder="El. paštas">
+        <input type="password" id="pass" class="form-input" placeholder="Slaptažodis">
+        <button id="loginBtn" class="btn">Prisijungti</button>
+    </div>
+
+    <div id="dash" class="admin-card hidden">
+        <h1>Nauja Galerija</h1>
+        <input type="text" id="title" class="form-input" placeholder="Galerijos pavadinimas">
+        <input type="text" id="subtitle" class="form-input" placeholder="Potėmė / Kategorija">
+        <input type="text" id="pin" class="form-input" placeholder="PIN (6 skaitmenys)" maxlength="6">
+        <input type="url" id="zip" class="form-input" placeholder="ZIP nuoroda (nebūtina)">
+        
+        <div class="upload-zone" id="drop">Spauskite arba įkelkite nuotraukas</div>
+        <input type="file" id="files" multiple class="hidden">
+        
+        <button id="saveBtn" class="btn">Sukurti galeriją</button>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { auth, db, storage } from './firebase-config.js';
+        import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const drop = document.getElementById('drop');
+        const filesInput = document.getElementById('files');
+        let selectedFiles = [];
+
+        document.getElementById('loginBtn').onclick = () => {
+            signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('pass').value)
+                .catch(() => alert("Klaida"));
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === 'dominikphotofficial.lt@gmail.com') {
+                document.getElementById('authPanel').classList.add('hidden');
+                document.getElementById('dash').classList.remove('hidden');
+            }
+        });
+
+        drop.onclick = () => filesInput.click();
+        filesInput.onchange = (e) => {
+            selectedFiles = [...e.target.files];
+            drop.innerText = `Pasirinkta nuotraukų: ${selectedFiles.length}`;
+        };
+
+        document.getElementById('saveBtn').onclick = async () => {
+            const status = document.getElementById('status');
+            const pin = document.getElementById('pin').value;
+            const photos = [];
+
+            if (selectedFiles.length === 0 || pin.length !== 6) return alert("Užpildykite duomenis");
+
+            document.getElementById('saveBtn').disabled = true;
+
+            for (let file of selectedFiles) {
+                status.innerText = `Kelama: ${file.name}`;
+                const sRef = ref(storage, `galleries/${pin}/${file.name}`);
+                await uploadBytes(sRef, file);
+                const url = await getDownloadURL(sRef);
+                photos.push({ thumb: url, full: url });
+            }
+
+            await addDoc(collection(db, "galleries"), {
+                title: document.getElementById('title').value,
+                subtitle: document.getElementById('subtitle').value,
+                pin: pin,
+                zip_url: document.getElementById('zip').value,
+                photos: photos,
+                date: new Date().toISOString()
+            });
+
+            alert("Galerija sukurta!");
+            location.reload();
+        };
+    </script>
 </body>
 </html>
