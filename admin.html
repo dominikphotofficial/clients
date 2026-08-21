@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Valdymas — DP.PORTFOLIO</title>
+    <title>Valdymo Skydelis — DP.PORTFOLIO</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,11 +12,12 @@
             --accent-color: #113939;
             --accent-light: #2A5C5C;
             --text-color: #1A2B2B;
-            --border-color: rgba(17, 57, 57, 0.12);
-            --danger-color: #8b0000;
+            --border-color: rgba(17, 57, 57, 0.1);
+            --danger-color: #9e2a2b;
             --font-heading: 'Jost', sans-serif;
             --font-body: 'Josefin Sans', sans-serif;
             --cb: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -37,20 +38,39 @@
         }
 
         header {
-            padding: 25px 5vw;
+            padding: 18px 5vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
-            background: rgba(251, 249, 246, 0.95);
+            background: rgba(251, 249, 246, 0.96);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo {
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .header-logo img {
+            height: 28px;
+            width: auto;
+        }
+
+        .admin-badge {
             font-family: var(--font-heading);
-            font-size: 1.1rem;
-            letter-spacing: 4px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            font-weight: 500;
+            background: rgba(17, 57, 57, 0.08);
+            color: var(--accent-color);
+            padding: 3px 8px;
+            border-radius: 2px;
         }
 
         .admin-nav {
@@ -67,60 +87,259 @@
 
         .btn-logout {
             background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 8px 20px;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 18px;
             font-family: var(--font-heading);
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s var(--cb);
+            transition: var(--transition);
         }
 
         .btn-logout:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
+            background: var(--danger-color);
+            color: #FFFFFF;
+            border-color: var(--danger-color);
         }
 
         main {
             flex: 1;
-            padding: 50px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            padding: 40px 5vw 80px 5vw;
+            max-width: 1500px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .card {
-            width: 100%;
-            max-width: 650px;
+        .auth-container {
+            max-width: 450px;
+            margin: 80px auto;
             background: var(--surface-color);
             padding: 45px;
             border: 1px solid var(--border-color);
             box-shadow: 0 10px 40px rgba(17, 57, 57, 0.03);
+            text-align: center;
         }
 
-        h1 {
+        .auth-container h1 {
             font-family: var(--font-heading);
             text-transform: uppercase;
             letter-spacing: 4px;
             font-size: 1.6rem;
-            margin-bottom: 10px;
-            text-align: center;
+            margin-bottom: 25px;
             font-weight: 400;
         }
 
-        .subtitle-text {
-            text-align: center;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0.6;
+        .tabs-header {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 35px;
         }
 
-        .form-group {
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            color: rgba(26, 43, 43, 0.5);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s var(--cb);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: var(--surface-color);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            padding: 12px 18px;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            width: 320px;
+            outline: none;
+            transition: border-color 0.3s var(--cb);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .gallery-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .gallery-row {
+            display: grid;
+            grid-template-columns: 80px 1.5fr 1fr 120px 140px 160px;
+            align-items: center;
+            gap: 20px;
+            background: var(--surface-color);
+            padding: 15px 25px;
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.3s var(--cb), transform 0.3s var(--cb);
+        }
+
+        .gallery-row:hover {
+            box-shadow: 0 8px 25px rgba(17, 57, 57, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .gallery-thumb {
+            width: 80px;
+            height: 55px;
+            object-fit: cover;
+            background: #e8e6e3;
+        }
+
+        .gallery-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .gallery-info p {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            text-transform: uppercase;
+        }
+
+        .pin-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(17, 57, 57, 0.06);
+            padding: 6px 12px;
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            font-weight: 500;
+            color: var(--accent-color);
+            cursor: pointer;
+            width: fit-content;
+        }
+
+        .pin-pill:hover {
+            background: rgba(17, 57, 57, 0.12);
+        }
+
+        .meta-text {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .row-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .action-icon-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .action-icon-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .action-icon-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
+        }
+
+        .action-icon-btn.btn-delete:hover {
+            background: var(--danger-color);
+            color: #FFFFFF;
+            border-color: var(--danger-color);
+        }
+
+        .form-card {
+            max-width: 700px;
+            background: var(--surface-color);
+            padding: 45px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(17, 57, 57, 0.03);
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
         }
 
         .form-label {
@@ -135,11 +354,11 @@
 
         .form-input {
             width: 100%;
-            padding: 14px;
+            padding: 13px 15px;
             background: var(--bg-color);
             border: 1px solid var(--border-color);
             font-family: var(--font-body);
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-color);
             outline: none;
             transition: border-color 0.3s var(--cb);
@@ -151,7 +370,7 @@
 
         .drop-zone {
             border: 2px dashed var(--accent-color);
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
             background: rgba(17, 57, 57, 0.02);
@@ -160,7 +379,6 @@
 
         .drop-zone.dragover {
             background: rgba(17, 57, 57, 0.08);
-            border-color: var(--accent-light);
         }
 
         .drop-zone p {
@@ -173,30 +391,22 @@
 
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
             margin-top: 15px;
-            max-height: 220px;
+            max-height: 200px;
             overflow-y: auto;
-            padding: 5px;
         }
 
-        .preview-item {
-            position: relative;
-            aspect-ratio: 1/1;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .preview-item img {
+        .preview-grid img {
             width: 100%;
-            height: 100%;
+            height: 70px;
             object-fit: cover;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: var(--accent-color);
             color: var(--bg-color);
             border: 1px solid var(--accent-color);
@@ -205,7 +415,7 @@
             letter-spacing: 3px;
             font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.4s var(--cb);
+            transition: var(--transition);
             margin-top: 10px;
         }
 
@@ -214,12 +424,7 @@
             border-color: var(--accent-light);
         }
 
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .progress-container {
+        .progress-box {
             margin-top: 20px;
             display: none;
         }
@@ -228,7 +433,6 @@
             width: 100%;
             height: 6px;
             background: var(--border-color);
-            overflow: hidden;
         }
 
         .progress-bar-fill {
@@ -246,24 +450,100 @@
             text-transform: uppercase;
         }
 
-        .error-msg {
-            color: var(--danger-color);
-            font-size: 0.8rem;
+        .reviews-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .review-card {
+            background: var(--surface-color);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .review-author {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .review-gallery {
+            font-size: 0.75rem;
             letter-spacing: 1px;
-            margin-top: 15px;
-            text-align: center;
-            display: none;
+            text-transform: uppercase;
+            color: var(--accent-light);
+            margin-bottom: 15px;
+        }
+
+        .review-stars {
+            color: #d4af37;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        .review-body {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin-bottom: 20px;
+        }
+
+        .review-date {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            opacity: 0.5;
             text-transform: uppercase;
         }
 
         .hidden {
             display: none !important;
         }
+
+        @media (max-width: 1024px) {
+            .gallery-row {
+                grid-template-columns: 70px 1fr 1fr;
+                gap: 15px;
+            }
+            .gallery-row .pin-pill,
+            .gallery-row .meta-text {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+            main {
+                padding: 20px 15px;
+            }
+            .gallery-row {
+                grid-template-columns: 60px 1fr auto;
+                padding: 12px 15px;
+            }
+            .search-input {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo">DP.PORTFOLIO</div>
+        <div class="header-logo">
+            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO">
+            <span class="admin-badge">Admin</span>
+        </div>
         <div class="admin-nav hidden" id="headerNav">
             <span class="user-email" id="userDisplay"></span>
             <button class="btn-logout" id="logoutBtn">Atsijungti</button>
@@ -271,75 +551,102 @@
     </header>
 
     <main>
-        <div id="authCard" class="card">
+        <div id="authSection" class="auth-container">
             <h1>Prisijungimas</h1>
-            <p class="subtitle-text">Administratoriaus prieiga</p>
             <div class="form-group">
-                <label class="form-label">El. paštas</label>
                 <input type="email" id="loginEmail" class="form-input" placeholder="dominikphotofficial.lt@gmail.com">
             </div>
             <div class="form-group">
-                <label class="form-label">Slaptažodis</label>
-                <input type="password" id="loginPass" class="form-input" placeholder="••••••••">
+                <input type="password" id="loginPass" class="form-input" placeholder="Slaptažodis">
             </div>
             <button id="loginBtn" class="btn-submit">Prisijungti</button>
-            <p id="loginError" class="error-msg"></p>
+            <p id="loginError" style="color: var(--danger-color); font-size: 0.8rem; margin-top: 15px; display: none;"></p>
         </div>
 
-        <div id="dashCard" class="card hidden">
-            <h1>Nauja Galerija</h1>
-            <p class="subtitle-text">Kliento nuotraukų įkėlimas</p>
+        <div id="dashSection" class="hidden">
+            <nav class="tabs-header">
+                <button class="tab-btn active" data-tab="galleriesTab">Galerijos (<span id="galleriesCount">0</span>)</button>
+                <button class="tab-btn" data-tab="newGalleryTab">+ Nauja Galerija</button>
+                <button class="tab-btn" data-tab="reviewsTab">Atsiliepimai (<span id="reviewsCount">0</span>)</button>
+            </nav>
 
-            <form id="galleryForm">
-                <div class="form-group">
-                    <label class="form-label">Galerijos pavadinimas</label>
-                    <input type="text" id="gTitle" class="form-input" placeholder="Pvz. Porsche 911 GT3 RS Sesija" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Kategorija / Potėmė</label>
-                    <input type="text" id="gSubtitle" class="form-input" placeholder="Pvz. Automobilių fotosesija — Vilnius" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">PIN kodas (6 skaitmenys)</label>
-                    <input type="text" id="gPin" class="form-input" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">ZIP Archyvo nuoroda (nebūtina)</label>
-                    <input type="url" id="gZip" class="form-input" placeholder="https://drive.google.com/...">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Nuotraukos</label>
-                    <div class="drop-zone" id="dropZone">
-                        <p id="dropText">Tempkite nuotraukas čia arba spustelėkite</p>
-                        <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+            <div id="galleriesTab" class="tab-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Viso Galerijų</div>
+                        <div class="stat-value" id="statTotalGalleries">0</div>
                     </div>
-                    <div class="preview-grid" id="previewGrid"></div>
-                </div>
-
-                <div class="progress-container" id="progressBox">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="progressBar"></div>
+                    <div class="stat-card">
+                        <div class="stat-label">Viso Nuotraukų</div>
+                        <div class="stat-value" id="statTotalPhotos">0</div>
                     </div>
-                    <p class="progress-text" id="progressStatus">Įkeliama...</p>
+                    <div class="stat-card">
+                        <div class="stat-label">Gauti Atsiliepimai</div>
+                        <div class="stat-value" id="statTotalReviews">0</div>
+                    </div>
                 </div>
 
-                <button type="submit" id="submitGalleryBtn" class="btn-submit">Sukurti ir įkelti galeriją</button>
-            </form>
+                <div class="toolbar">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Ieškoti pagal pavadinimą arba PIN...">
+                </div>
+
+                <div class="gallery-list" id="galleryList"></div>
+            </div>
+
+            <div id="newGalleryTab" class="tab-content hidden">
+                <div class="form-card">
+                    <form id="galleryForm">
+                        <div class="form-group">
+                            <label class="form-label">Galerijos pavadinimas</label>
+                            <input type="text" id="gTitle" class="form-input" placeholder="Pvz. Porsche 911 GT3 RS Sesija" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kategorija / Potėmė</label>
+                            <input type="text" id="gSubtitle" class="form-input" placeholder="Pvz. Automobilių fotosesija — Kaunas" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">PIN kodas (6 skaitmenys)</label>
+                            <input type="text" id="gPin" class="form-input" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ZIP Archyvo nuoroda</label>
+                            <input type="url" id="gZip" class="form-input" placeholder="https://drive.google.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nuotraukos</label>
+                            <div class="drop-zone" id="dropZone">
+                                <p id="dropText">Tempkite nuotraukas čia arba spustelėkite</p>
+                                <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+                            </div>
+                            <div class="preview-grid" id="previewGrid"></div>
+                        </div>
+
+                        <div class="progress-box" id="progressBox">
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="progressBar"></div>
+                            </div>
+                            <p class="progress-text" id="progressStatus">Įkeliama...</p>
+                        </div>
+
+                        <button type="submit" id="submitGalleryBtn" class="btn-submit">Sukurti ir įkelti galeriją</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="reviewsTab" class="tab-content hidden">
+                <div class="reviews-list" id="reviewsList"></div>
+            </div>
         </div>
     </main>
 
     <script type="module">
         import { auth, db, storage } from './firebase-config.js';
         import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { collection, getDocs, addDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        const authCard = document.getElementById('authCard');
-        const dashCard = document.getElementById('dashCard');
+        const authSection = document.getElementById('authSection');
+        const dashSection = document.getElementById('dashSection');
         const headerNav = document.getElementById('headerNav');
         const userDisplay = document.getElementById('userDisplay');
         const logoutBtn = document.getElementById('logoutBtn');
@@ -348,27 +655,30 @@
         const loginPass = document.getElementById('loginPass');
         const loginError = document.getElementById('loginError');
 
-        const dropZone = document.getElementById('dropZone');
-        const dropText = document.getElementById('dropText');
-        const fileInput = document.getElementById('fileInput');
-        const previewGrid = document.getElementById('previewGrid');
-        const galleryForm = document.getElementById('galleryForm');
-        const submitGalleryBtn = document.getElementById('submitGalleryBtn');
-        const progressBox = document.getElementById('progressBox');
-        const progressBar = document.getElementById('progressBar');
-        const progressStatus = document.getElementById('progressStatus');
+        const galleryList = document.getElementById('galleryList');
+        const reviewsList = document.getElementById('reviewsList');
+        const searchInput = document.getElementById('searchInput');
 
+        const statTotalGalleries = document.getElementById('statTotalGalleries');
+        const statTotalPhotos = document.getElementById('statTotalPhotos');
+        const statTotalReviews = document.getElementById('statTotalReviews');
+        const galleriesCount = document.getElementById('galleriesCount');
+        const reviewsCount = document.getElementById('reviewsCount');
+
+        let allGalleries = [];
+        let allReviews = [];
         let selectedFiles = [];
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user && user.email === 'dominikphotofficial.lt@gmail.com') {
-                authCard.classList.add('hidden');
-                dashCard.classList.remove('hidden');
+                authSection.classList.add('hidden');
+                dashSection.classList.remove('hidden');
                 headerNav.classList.remove('hidden');
                 userDisplay.innerText = user.email;
+                await loadDashboardData();
             } else {
-                authCard.classList.remove('hidden');
-                dashCard.classList.add('hidden');
+                authSection.classList.remove('hidden');
+                dashSection.classList.add('hidden');
                 headerNav.classList.add('hidden');
             }
         });
@@ -376,53 +686,190 @@
         loginBtn.addEventListener('click', async () => {
             const email = loginEmail.value.trim();
             const pass = loginPass.value;
-
-            if (!email || !pass) {
-                showError("Užpildykite visus laukus");
-                return;
-            }
+            if (!email || !pass) return;
 
             loginBtn.innerText = "Jungiamasi...";
             loginBtn.disabled = true;
-
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
-            } catch (err) {
-                showError("Neteisingi prisijungimo duomenys");
+            } catch (e) {
+                loginError.innerText = "Neteisingi prisijungimo duomenys";
+                loginError.style.display = 'block';
             } finally {
                 loginBtn.innerText = "Prisijungti";
                 loginBtn.disabled = false;
             }
         });
 
-        loginPass.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginBtn.click();
+        logoutBtn.addEventListener('click', () => signOut(auth));
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.remove('hidden');
+            });
         });
 
-        logoutBtn.addEventListener('click', async () => {
-            await signOut(auth);
-        });
+        async function loadDashboardData() {
+            const gSnap = await getDocs(query(collection(db, "galleries"), orderBy("date", "desc")));
+            allGalleries = [];
+            let totalPhotos = 0;
 
-        function showError(msg) {
-            loginError.innerText = msg;
-            loginError.style.display = 'block';
-            setTimeout(() => { loginError.style.display = 'none'; }, 4000);
+            gSnap.forEach(docSnap => {
+                const item = { id: docSnap.id, ...docSnap.data() };
+                allGalleries.push(item);
+                totalPhotos += (item.photos ? item.photos.length : 0);
+            });
+
+            const rSnap = await getDocs(query(collection(db, "reviews"), orderBy("date", "desc")));
+            allReviews = [];
+            rSnap.forEach(docSnap => {
+                allReviews.push({ id: docSnap.id, ...docSnap.data() });
+            });
+
+            statTotalGalleries.innerText = allGalleries.length;
+            galleriesCount.innerText = allGalleries.length;
+            statTotalPhotos.innerText = totalPhotos;
+            statTotalReviews.innerText = allReviews.length;
+            reviewsCount.innerText = allReviews.length;
+
+            renderGalleries(allGalleries);
+            renderReviews(allReviews);
         }
 
-        dropZone.addEventListener('click', () => fileInput.click());
+        function renderGalleries(list) {
+            galleryList.innerHTML = '';
+            if (list.length === 0) {
+                galleryList.innerHTML = '<p style="text-align:center; padding:40px; opacity:0.5; text-transform:uppercase; letter-spacing:2px;">Galerijų nerasta</p>';
+                return;
+            }
 
-        ['dragenter', 'dragover'].forEach(event => {
-            dropZone.addEventListener(event, (e) => {
+            list.forEach(g => {
+                const cover = (g.photos && g.photos.length > 0) ? g.photos[0].thumb : '';
+                const count = g.photos ? g.photos.length : 0;
+                const dateStr = g.date ? new Date(g.date).toLocaleDateString('lt-LT') : '—';
+
+                const row = document.createElement('div');
+                row.className = 'gallery-row';
+                row.innerHTML = `
+                    <img src="${cover}" class="gallery-thumb" alt="Cover">
+                    <div class="gallery-info">
+                        <h3>${g.title || 'Be pavadinimo'}</h3>
+                        <p>${g.subtitle || ''}</p>
+                    </div>
+                    <div>
+                        <span class="pin-pill" title="Nukopijuoti PIN" data-pin="${g.pin}">
+                            PIN: ${g.pin}
+                        </span>
+                    </div>
+                    <div class="meta-text">${count} nuotr.</div>
+                    <div class="meta-text">${dateStr}</div>
+                    <div class="row-actions">
+                        <button class="action-icon-btn btn-open" title="Peržiūrėti kliento akimis">
+                            <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        </button>
+                        <button class="action-icon-btn btn-delete" title="Ištrinti galeriją">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        </button>
+                    </div>
+                `;
+
+                row.querySelector('.pin-pill').onclick = () => {
+                    navigator.clipboard.writeText(g.pin);
+                    alert(`PIN kodas ${g.pin} nukopijuotas!`);
+                };
+
+                row.querySelector('.btn-open').onclick = () => {
+                    sessionStorage.setItem('clientGallery', JSON.stringify(g));
+                    window.open('/gallery.html', '_blank');
+                };
+
+                row.querySelector('.btn-delete').onclick = async () => {
+                    if (confirm(`Ar tikrai norite ištrinti galeriją "${g.title}"?`)) {
+                        await deleteDoc(doc(db, "galleries", g.id));
+                        await loadDashboardData();
+                    }
+                };
+
+                galleryList.appendChild(row);
+            });
+        }
+
+        function renderReviews(list) {
+            reviewsList.innerHTML = '';
+            if (list.length === 0) {
+                reviewsList.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:40px; opacity:0.5; text-transform:uppercase; letter-spacing:2px;">Atsiliepimų nėra</p>';
+                return;
+            }
+
+            list.forEach(r => {
+                const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+                const dateStr = r.date ? new Date(r.date).toLocaleDateString('lt-LT') : '';
+
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="review-header">
+                            <div class="review-author">${r.name || 'Anonimas'}</div>
+                            <div class="review-stars">${stars}</div>
+                        </div>
+                        <div class="review-gallery">${r.galleryTitle || ''}</div>
+                        <div class="review-body">"${r.text || ''}"</div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:12px;">
+                        <span class="review-date">${dateStr}</span>
+                        <button class="action-icon-btn btn-delete" title="Ištrinti atsiliepimą" style="width:30px; height:30px;">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        </button>
+                    </div>
+                `;
+
+                card.querySelector('.btn-delete').onclick = async () => {
+                    if (confirm("Ištrinti šį atsiliepimą?")) {
+                        await deleteDoc(doc(db, "reviews", r.id));
+                        await loadDashboardData();
+                    }
+                };
+
+                reviewsList.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            const filtered = allGalleries.filter(g => 
+                (g.title && g.title.toLowerCase().includes(val)) ||
+                (g.subtitle && g.subtitle.toLowerCase().includes(val)) ||
+                (g.pin && g.pin.includes(val))
+            );
+            renderGalleries(filtered);
+        });
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const previewGrid = document.getElementById('previewGrid');
+        const dropText = document.getElementById('dropText');
+        const galleryForm = document.getElementById('galleryForm');
+        const submitGalleryBtn = document.getElementById('submitGalleryBtn');
+        const progressBox = document.getElementById('progressBox');
+        const progressBar = document.getElementById('progressBar');
+        const progressStatus = document.getElementById('progressStatus');
+
+        dropZone.onclick = () => fileInput.click();
+
+        ['dragenter', 'dragover'].forEach(ev => {
+            dropZone.addEventListener(ev, (e) => {
                 e.preventDefault();
-                e.stopPropagation();
                 dropZone.classList.add('dragover');
             });
         });
 
-        ['dragleave', 'drop'].forEach(event => {
-            dropZone.addEventListener(event, (e) => {
+        ['dragleave', 'drop'].forEach(ev => {
+            dropZone.addEventListener(ev, (e) => {
                 e.preventDefault();
-                e.stopPropagation();
                 dropZone.classList.remove('dragover');
             });
         });
@@ -433,46 +880,28 @@
         });
 
         fileInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            addFiles(files);
+            addFiles(Array.from(e.target.files));
         });
 
         function addFiles(files) {
             selectedFiles = [...selectedFiles, ...files];
-            renderPreviews();
-        }
-
-        function renderPreviews() {
             previewGrid.innerHTML = '';
             dropText.innerText = `Pasirinkta nuotraukų: ${selectedFiles.length}`;
-
-            selectedFiles.forEach((file) => {
-                const item = document.createElement('div');
-                item.className = 'preview-item';
+            selectedFiles.forEach(file => {
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
-                item.appendChild(img);
-                previewGrid.appendChild(item);
+                previewGrid.appendChild(img);
             });
         }
 
         galleryForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const pin = document.getElementById('gPin').value.trim();
             const title = document.getElementById('gTitle').value.trim();
             const subtitle = document.getElementById('gSubtitle').value.trim();
             const zip = document.getElementById('gZip').value.trim();
 
-            if (selectedFiles.length === 0) {
-                alert("Pasirinkite bent vieną nuotrauką");
-                return;
-            }
-
-            if (pin.length !== 6) {
-                alert("PIN kodą turi sudaryti 6 skaitmenys");
-                return;
-            }
+            if (selectedFiles.length === 0 || pin.length !== 6) return alert("Patikrinkite duomenis");
 
             submitGalleryBtn.disabled = true;
             progressBox.style.display = 'block';
@@ -487,18 +916,15 @@
 
                     await new Promise((resolve, reject) => {
                         uploadTask.on('state_changed', 
-                            (snapshot) => {
-                                const percent = ((i + (snapshot.bytesTransferred / snapshot.totalBytes)) / selectedFiles.length) * 100;
+                            (snap) => {
+                                const percent = ((i + (snap.bytesTransferred / snap.totalBytes)) / selectedFiles.length) * 100;
                                 progressBar.style.width = `${percent}%`;
                                 progressStatus.innerText = `Keliama: ${i + 1} iš ${selectedFiles.length} (${Math.round(percent)}%)`;
                             },
-                            (error) => reject(error),
+                            (err) => reject(err),
                             async () => {
-                                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                                uploadedPhotos.push({
-                                    thumb: downloadURL,
-                                    full: downloadURL
-                                });
+                                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                                uploadedPhotos.push({ thumb: url, full: url });
                                 resolve();
                             }
                         );
@@ -506,24 +932,27 @@
                 }
 
                 await addDoc(collection(db, "galleries"), {
-                    title: title,
-                    subtitle: subtitle,
-                    pin: pin,
+                    title,
+                    subtitle,
+                    pin,
                     zip_url: zip || null,
                     photos: uploadedPhotos,
                     date: new Date().toISOString()
                 });
 
-                progressBar.style.width = '100%';
-                progressStatus.innerText = "Galerija sėkmingai sukurta!";
-                
-                setTimeout(() => {
-                    alert("Galerija sėkmingai išsaugota!");
-                    location.reload();
-                }, 800);
+                alert("Galerija sėkmingai sukurta!");
+                galleryForm.reset();
+                selectedFiles = [];
+                previewGrid.innerHTML = '';
+                dropText.innerText = "Tempkite nuotraukas čia arba spustelėkite";
+                progressBox.style.display = 'none';
+                submitGalleryBtn.disabled = false;
 
-            } catch (err) {
-                alert("Klaida įkeliant nuotraukas. Bandykite dar kartą.");
+                document.querySelector('[data-tab="galleriesTab"]').click();
+                await loadDashboardData();
+
+            } catch (error) {
+                alert("Klaida įkeliant nuotraukas.");
                 submitGalleryBtn.disabled = false;
                 progressBox.style.display = 'none';
             }
