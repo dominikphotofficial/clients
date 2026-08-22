@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Galerija — DP.PORTFOLIO</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,6 +18,7 @@
             --text-color: #1A2B2B;
             --text-muted: rgba(26, 43, 43, 0.6);
             --border-color: rgba(17, 57, 57, 0.1);
+            --danger-color: #9e2a2b;
             --font-heading: 'Jost', sans-serif;
             --font-body: 'Josefin Sans', sans-serif;
             --radius: 2px;
@@ -77,7 +80,7 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn-action {
@@ -130,7 +133,7 @@
         .hero-info {
             text-align: center;
             max-width: 900px;
-            margin: 0 auto 50px auto;
+            margin: 0 auto 40px auto;
         }
 
         .hero-meta-badge {
@@ -172,7 +175,7 @@
 
         .story-card {
             max-width: 850px;
-            margin: 0 auto 60px auto;
+            margin: 0 auto 45px auto;
             background: var(--surface-color);
             border: 1px solid var(--border-color);
             padding: clamp(25px, 5vw, 45px);
@@ -197,6 +200,62 @@
             color: var(--accent-color);
             margin-top: 25px;
             font-weight: 500;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tab-btn.active {
+            color: var(--accent-color);
+            font-weight: 600;
+            background: var(--accent-soft);
+        }
+
+        .btn-copy-favs {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 14px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-copy-favs:hover {
+            background: var(--accent-color);
+            color: #FFFFFF;
         }
 
         .gallery-masonry {
@@ -239,6 +298,39 @@
             fill: #FFFFFF;
             transform: scale(0.8);
             transition: transform 0.3s var(--cb);
+        }
+
+        .fav-heart-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .fav-heart-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #777;
+            transition: fill 0.2s ease;
+        }
+
+        .fav-heart-btn.active svg {
+            fill: var(--danger-color);
+        }
+
+        .fav-heart-btn:hover {
+            transform: scale(1.1);
+            background: #FFFFFF;
         }
 
         .photo-card:hover img {
@@ -415,6 +507,10 @@
             fill: currentColor;
         }
 
+        .lb-btn.heart-active svg {
+            fill: var(--danger-color);
+        }
+
         .lb-btn:hover {
             opacity: 0.7;
             transform: scale(1.1);
@@ -537,6 +633,17 @@
             <div class="story-signature">DP.PORTFOLIO</div>
         </section>
 
+        <div class="filter-bar">
+            <div class="filter-tabs">
+                <button class="filter-tab-btn active" id="tabAll">Visi kadrai (<span id="countAll">0</span>)</button>
+                <button class="filter-tab-btn" id="tabFavs">Mėgstamiausi (<span id="countFavs">0</span>)</button>
+            </div>
+            <button class="btn-copy-favs" id="copyFavsBtn">
+                <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                <span>Kopijuoti atrinktų sąrašą</span>
+            </button>
+        </div>
+
         <section class="gallery-masonry" id="photosGrid"></section>
 
         <section class="review-box">
@@ -579,6 +686,9 @@
         <div class="lightbox-top">
             <span class="lightbox-idx" id="lbCounterText">1 / 1</span>
             <div class="lightbox-actions">
+                <button class="lb-btn" id="lbHeartBtn" title="Pažymėti širdele">
+                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </button>
                 <a href="#" id="lbDownloadBtn" class="lb-btn" title="Atsisiųsti nuotrauką" target="_blank" download>
                     <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                 </a>
@@ -615,6 +725,9 @@
         }
 
         const data = JSON.parse(raw);
+        const galleryKey = `favs_${data.pin || 'default'}`;
+        let favorites = JSON.parse(localStorage.getItem(galleryKey) || '[]');
+        let currentFilter = 'all';
 
         document.getElementById('galleryTitleName').innerText = data.title || 'Galerija';
         document.getElementById('galleryCategoryName').innerText = data.subtitle || '';
@@ -640,25 +753,100 @@
         });
 
         const grid = document.getElementById('photosGrid');
+        const countAll = document.getElementById('countAll');
+        const countFavs = document.getElementById('countFavs');
+        const tabAll = document.getElementById('tabAll');
+        const tabFavs = document.getElementById('tabFavs');
+        const copyFavsBtn = document.getElementById('copyFavsBtn');
+
+        countAll.innerText = photos.length;
+        countFavs.innerText = favorites.length;
+
+        function updateFavoritesBadge() {
+            countFavs.innerText = favorites.length;
+            localStorage.setItem(galleryKey, JSON.stringify(favorites));
+            copyFavsBtn.style.display = favorites.length > 0 ? 'inline-flex' : 'none';
+        }
+
+        updateFavoritesBadge();
+
+        tabAll.addEventListener('click', () => {
+            currentFilter = 'all';
+            tabAll.classList.add('active');
+            tabFavs.classList.remove('active');
+            renderGrid();
+        });
+
+        tabFavs.addEventListener('click', () => {
+            currentFilter = 'favs';
+            tabFavs.classList.add('active');
+            tabAll.classList.remove('active');
+            renderGrid();
+        });
+
+        copyFavsBtn.addEventListener('click', () => {
+            if (favorites.length === 0) return;
+            const text = `Kliento atrinkti kadrai (${data.title}):\n` + favorites.map((f, i) => `${i + 1}. ${f}`).join('\n');
+            navigator.clipboard.writeText(text);
+            alert(`Atrinktų nuotraukų sąrašas nukopijuotas (${favorites.length} vnt.)!`);
+        });
+
+        let activeDisplayPhotos = [];
         let currentIdx = 0;
 
-        photos.forEach((p, idx) => {
-            const card = document.createElement('div');
-            card.className = 'photo-card';
-            card.innerHTML = `
-                <img src="${p.thumb}" loading="lazy" alt="Kadras ${idx + 1}">
-                <div class="photo-hover-overlay">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </div>
-            `;
-            card.addEventListener('click', () => showLightbox(idx));
-            grid.appendChild(card);
-        });
+        function renderGrid() {
+            grid.innerHTML = '';
+            activeDisplayPhotos = currentFilter === 'all' 
+                ? photos 
+                : photos.filter(p => favorites.includes(p.full || p.thumb));
+
+            if (activeDisplayPhotos.length === 0) {
+                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px; opacity:0.5; text-transform:uppercase; letter-spacing:2px;">Mėgstamiausių nuotraukų kol kas nėra</p>';
+                return;
+            }
+
+            activeDisplayPhotos.forEach((p, idx) => {
+                const isFav = favorites.includes(p.full || p.thumb);
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.innerHTML = `
+                    <button class="fav-heart-btn ${isFav ? 'active' : ''}" title="Mėgstamiausia">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </button>
+                    <img src="${p.thumb}" loading="lazy" alt="Kadras">
+                    <div class="photo-hover-overlay">
+                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                `;
+
+                card.querySelector('.fav-heart-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleFavorite(p.full || p.thumb);
+                });
+
+                card.addEventListener('click', () => showLightbox(idx));
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleFavorite(photoUrl) {
+            if (favorites.includes(photoUrl)) {
+                favorites = favorites.filter(u => u !== photoUrl);
+            } else {
+                favorites.push(photoUrl);
+            }
+            updateFavoritesBadge();
+            renderGrid();
+            updateLightboxHeart();
+        }
+
+        renderGrid();
 
         const lbModal = document.getElementById('lbModal');
         const lbDisplayImg = document.getElementById('lbDisplayImg');
         const lbCounterText = document.getElementById('lbCounterText');
         const lbDownloadBtn = document.getElementById('lbDownloadBtn');
+        const lbHeartBtn = document.getElementById('lbHeartBtn');
         const lbCloseButton = document.getElementById('lbCloseButton');
         const lbLeftBtn = document.getElementById('lbLeftBtn');
         const lbRightBtn = document.getElementById('lbRightBtn');
@@ -676,11 +864,12 @@
         }
 
         function renderLightbox() {
-            const p = photos[currentIdx];
+            const p = activeDisplayPhotos[currentIdx];
             if (!p) return;
 
-            lbCounterText.innerText = `${currentIdx + 1} / ${photos.length}`;
+            lbCounterText.innerText = `${currentIdx + 1} / ${activeDisplayPhotos.length}`;
             lbDownloadBtn.href = p.full || p.thumb;
+            updateLightboxHeart();
 
             lbDisplayImg.style.opacity = '0';
             const cacheImg = new Image();
@@ -691,15 +880,27 @@
             };
         }
 
+        function updateLightboxHeart() {
+            const p = activeDisplayPhotos[currentIdx];
+            if (!p) return;
+            const isFav = favorites.includes(p.full || p.thumb);
+            lbHeartBtn.classList.toggle('heart-active', isFav);
+        }
+
+        lbHeartBtn.addEventListener('click', () => {
+            const p = activeDisplayPhotos[currentIdx];
+            if (p) toggleFavorite(p.full || p.thumb);
+        });
+
         function nextPhoto() {
-            if (!photos.length) return;
-            currentIdx = (currentIdx + 1) % photos.length;
+            if (!activeDisplayPhotos.length) return;
+            currentIdx = (currentIdx + 1) % activeDisplayPhotos.length;
             renderLightbox();
         }
 
         function prevPhoto() {
-            if (!photos.length) return;
-            currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+            if (!activeDisplayPhotos.length) return;
+            currentIdx = (currentIdx - 1 + activeDisplayPhotos.length) % activeDisplayPhotos.length;
             renderLightbox();
         }
 
@@ -719,18 +920,6 @@
             if (e.key === 'ArrowRight') nextPhoto();
             if (e.key === 'ArrowLeft') prevPhoto();
         });
-
-        let touchStartX = 0;
-        let touchEndX = 0;
-        lbModal.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        lbModal.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) nextPhoto();
-            if (touchEndX - touchStartX > 50) prevPhoto();
-        }, { passive: true });
 
         let currentRate = 5;
         const starNodes = document.querySelectorAll('#starsWrapper svg');
