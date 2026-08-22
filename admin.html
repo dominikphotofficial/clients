@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Galerija — DP.PORTFOLIO</title>
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
+    <title>Valdymo Centras — DP.PORTFOLIO</title>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #F8F7F4;
             --surface-color: #FFFFFF;
-            --secondary-color: #D4C3B3;
+            --surface-hover: #F2EFE9;
             --accent-color: #113939;
             --accent-light: #2A5C5C;
-            --accent-soft: rgba(17, 57, 57, 0.05);
+            --accent-soft: rgba(17, 57, 57, 0.06);
             --text-color: #1A2B2B;
-            --text-muted: rgba(26, 43, 43, 0.6);
+            --text-muted: rgba(26, 43, 43, 0.55);
             --border-color: rgba(17, 57, 57, 0.1);
             --danger-color: #9e2a2b;
             --font-heading: 'Jost', sans-serif;
             --font-body: 'Josefin Sans', sans-serif;
             --radius: 2px;
             --cb: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -38,568 +36,650 @@
             color: var(--text-color);
             font-family: var(--font-body);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 16px 5vw;
+            padding: 14px 4vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            background: rgba(248, 247, 244, 0.95);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
             border-bottom: 1px solid var(--border-color);
-            transition: var(--transition);
+            background: rgba(248, 247, 244, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .header-logo {
             display: flex;
             align-items: center;
+            gap: 12px;
             text-decoration: none;
         }
 
         .header-logo img {
-            height: clamp(24px, 4vw, 32px);
+            height: clamp(22px, 3.5vw, 28px);
             width: auto;
-            display: block;
-            transition: transform 0.3s var(--cb), opacity 0.3s var(--cb);
         }
 
-        .header-logo img:hover {
-            opacity: 0.8;
-            transform: scale(1.03);
+        .admin-tag {
+            font-family: var(--font-heading);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--accent-soft);
+            color: var(--accent-color);
+            padding: 3px 7px;
+            font-weight: 500;
         }
 
-        .header-actions {
+        .admin-nav {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .btn-action {
+        .user-email {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .btn-icon-text {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 9px 18px;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
+            padding: 8px 16px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
             font-family: var(--font-heading);
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.75rem;
-            text-decoration: none;
-            background: transparent;
             cursor: pointer;
             transition: var(--transition);
+            text-decoration: none;
             border-radius: var(--radius);
         }
 
-        .btn-action svg {
+        .btn-icon-text svg {
             width: 14px;
             height: 14px;
             fill: currentColor;
         }
 
-        .btn-action:hover {
+        .btn-icon-text:hover {
             background: var(--accent-color);
+            color: #FFFFFF;
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: #FFFFFF;
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-light);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
             color: #FFFFFF;
         }
 
-        .btn-exit {
-            border-color: var(--border-color);
-            color: var(--text-muted);
-            padding: 9px 12px;
-        }
-
-        .btn-exit:hover {
-            background: rgba(17, 57, 57, 0.08);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .container {
-            max-width: 1700px;
+        main {
+            flex: 1;
+            padding: clamp(20px, 4vw, 40px) 4vw 80px 4vw;
+            max-width: 1600px;
+            width: 100%;
             margin: 0 auto;
-            padding: clamp(100px, 12vw, 140px) 4vw 80px 4vw;
         }
 
-        .hero-info {
+        .auth-card {
+            max-width: 420px;
+            margin: 80px auto;
+            background: var(--surface-color);
+            padding: clamp(30px, 5vw, 50px);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(17, 57, 57, 0.03);
             text-align: center;
-            max-width: 900px;
-            margin: 0 auto 40px auto;
         }
 
-        .hero-meta-badge {
-            display: inline-block;
+        .auth-card h1 {
             font-family: var(--font-heading);
-            font-size: 0.75rem;
-            letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--accent-light);
-            margin-bottom: 12px;
-            background: var(--accent-soft);
-            padding: 4px 12px;
-        }
-
-        .gallery-heading {
-            font-family: var(--font-heading);
-            font-size: clamp(2rem, 5vw, 3.6rem);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-weight: 300;
-            line-height: 1.15;
-            margin-bottom: 10px;
-        }
-
-        .gallery-category {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-muted);
+            letter-spacing: 4px;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
             font-weight: 400;
         }
 
-        .divider {
-            width: 45px;
-            height: 1px;
-            background-color: var(--accent-color);
-            margin: 25px auto 0 auto;
-        }
-
-        .story-card {
-            max-width: 850px;
-            margin: 0 auto 45px auto;
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            padding: clamp(25px, 5vw, 45px);
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(17, 57, 57, 0.02);
-            border-radius: var(--radius);
-        }
-
-        .story-content {
-            font-size: clamp(0.95rem, 2vw, 1.05rem);
-            line-height: 1.8;
-            color: var(--text-color);
-            white-space: pre-line;
-            font-weight: 300;
-        }
-
-        .story-signature {
-            font-family: var(--font-heading);
-            font-size: 0.85rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent-color);
-            margin-top: 25px;
-            font-weight: 500;
-        }
-
-        .filter-bar {
+        .top-toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
             gap: 15px;
             flex-wrap: wrap;
         }
 
-        .filter-tabs {
-            display: flex;
-            gap: 10px;
+        .page-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 400;
         }
 
-        .filter-tab-btn {
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            background: var(--surface-color);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+        }
+
+        .stat-label {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .stat-val {
+            font-family: var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 240px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 38px;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            fill: var(--text-muted);
+        }
+
+        .project-table-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .project-row {
+            display: grid;
+            grid-template-columns: 80px 2fr 1fr 1fr 140px;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .project-row:last-child {
+            border-bottom: none;
+        }
+
+        .project-row:hover {
+            background: var(--surface-hover);
+        }
+
+        .project-thumb {
+            width: 80px;
+            height: 55px;
+            object-fit: cover;
+            background: #eae8e4;
+            border-radius: var(--radius);
+        }
+
+        .project-meta-main h3 {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .project-meta-main p {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .pin-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-soft);
+            padding: 4px 10px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+            color: var(--accent-color);
+            width: fit-content;
+        }
+
+        .row-text {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .row-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            border-radius: var(--radius);
+        }
+
+        .icon-btn svg {
+            width: 15px;
+            height: 15px;
+            fill: currentColor;
+        }
+
+        .icon-btn:hover {
+            background: var(--accent-color);
+            color: #FFFFFF;
+            border-color: var(--accent-color);
+        }
+
+        .icon-btn.delete-btn:hover {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+            color: #FFFFFF;
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-bottom: 10px;
             background: none;
             border: none;
-            padding: 8px 16px;
+            transition: color 0.2s ease;
+        }
+
+        .back-nav:hover {
+            color: var(--accent-color);
+        }
+
+        .back-nav svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .workspace-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .workspace-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ws-tab-btn {
+            padding: 12px 20px;
+            background: none;
+            border: none;
             font-family: var(--font-heading);
             text-transform: uppercase;
             letter-spacing: 2px;
             font-size: 0.8rem;
             color: var(--text-muted);
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-tab-btn.active {
-            color: var(--accent-color);
-            font-weight: 600;
-            background: var(--accent-soft);
-        }
-
-        .btn-copy-favs {
-            display: none;
-            align-items: center;
-            gap: 8px;
-            background: transparent;
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 8px 14px;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-copy-favs:hover {
-            background: var(--accent-color);
-            color: #FFFFFF;
-        }
-
-        .gallery-masonry {
-            column-count: 3;
-            column-gap: 20px;
-            padding-bottom: 60px;
-        }
-
-        .photo-card {
+            white-space: nowrap;
             position: relative;
-            break-inside: avoid;
-            margin-bottom: 20px;
-            cursor: pointer;
-            overflow: hidden;
-            background: #e8e6e3;
-            border-radius: var(--radius);
-            box-shadow: 0 8px 25px rgba(17, 57, 57, 0.03);
+            transition: color 0.2s ease;
         }
 
-        .photo-card img {
+        .ws-tab-btn.active {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .ws-tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
             width: 100%;
-            display: block;
-            transition: transform 0.8s var(--cb);
+            height: 2px;
+            background: var(--accent-color);
         }
 
-        .photo-hover-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(17, 57, 57, 0.35);
+        .ws-grid-toolbar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s var(--cb);
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .photo-hover-overlay svg {
-            width: 32px;
-            height: 32px;
-            fill: #FFFFFF;
-            transform: scale(0.8);
-            transition: transform 0.3s var(--cb);
+        .photo-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
         }
 
-        .fav-heart-btn {
+        .photo-cell {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #e8e6e3;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
+
+        .photo-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-cell-delete {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.85);
+            top: 6px;
+            right: 6px;
+            background: rgba(10, 15, 15, 0.7);
             border: none;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            color: #FFFFFF;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10;
-            transition: transform 0.2s ease, background 0.2s ease;
+            opacity: 0;
+            transition: opacity 0.2s ease, background 0.2s ease;
+            border-radius: 2px;
         }
 
-        .fav-heart-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: #777;
-            transition: fill 0.2s ease;
+        .photo-cell-delete svg {
+            width: 13px;
+            height: 13px;
+            fill: currentColor;
         }
 
-        .fav-heart-btn.active svg {
-            fill: var(--danger-color);
-        }
-
-        .fav-heart-btn:hover {
-            transform: scale(1.1);
-            background: #FFFFFF;
-        }
-
-        .photo-card:hover img {
-            transform: scale(1.03);
-        }
-
-        .photo-card:hover .photo-hover-overlay {
+        .photo-cell:hover .photo-cell-delete {
             opacity: 1;
         }
 
-        .photo-card:hover .photo-hover-overlay svg {
-            transform: scale(1);
+        .photo-cell-delete:hover {
+            background: var(--danger-color);
         }
 
-        .review-box {
-            max-width: 680px;
-            margin: 40px auto 0 auto;
+        .form-pane {
             background: var(--surface-color);
-            padding: clamp(30px, 5vw, 55px);
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 40px rgba(17, 57, 57, 0.03);
-            border-radius: var(--radius);
+            padding: clamp(25px, 4vw, 40px);
+            max-width: 750px;
         }
 
-        .review-box h2 {
-            text-align: center;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            font-weight: 400;
+        .form-group {
+            margin-bottom: 22px;
         }
 
-        .form-row {
-            margin-bottom: 20px;
-        }
-
-        .label-text {
+        .form-label {
             display: block;
             font-family: var(--font-heading);
             font-size: 0.75rem;
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--accent-color);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .input-control {
+        .form-input {
             width: 100%;
-            padding: 12px 0;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(17, 57, 57, 0.2);
+            padding: 12px 14px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
             font-family: var(--font-body);
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-color);
             outline: none;
-            transition: border-color 0.3s var(--cb);
+            transition: border-color 0.2s ease;
+            border-radius: var(--radius);
         }
 
-        .input-control:focus {
-            border-bottom-color: var(--accent-color);
+        .form-input:focus {
+            border-color: var(--accent-color);
         }
 
-        .stars-container {
-            display: flex;
-            gap: 6px;
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .drop-box {
+            border: 2px dashed var(--accent-color);
+            padding: 40px 20px;
+            text-align: center;
             cursor: pointer;
-            margin-top: 6px;
+            background: var(--accent-soft);
+            transition: background 0.2s ease;
+            border-radius: var(--radius);
         }
 
-        .stars-container svg {
-            width: 26px;
-            height: 26px;
-            fill: #d5d0c8;
-            transition: fill 0.2s ease, transform 0.2s ease;
+        .drop-box.dragover {
+            background: rgba(17, 57, 57, 0.12);
         }
 
-        .stars-container svg.active,
-        .stars-container svg.hover {
-            fill: #d4af37;
-        }
-
-        .stars-container svg:hover {
-            transform: scale(1.15);
-        }
-
-        .btn-send-review {
-            width: 100%;
-            margin-top: 15px;
-            padding: 16px;
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border: 1px solid var(--accent-color);
+        .drop-box p {
             font-family: var(--font-heading);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
         }
 
-        .btn-send-review:hover {
-            background: var(--accent-light);
-            border-color: var(--accent-light);
+        .progress-indicator {
+            margin-top: 15px;
+            display: none;
         }
 
-        .lightbox-modal {
+        .progress-bar-rail {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            overflow: hidden;
+        }
+
+        .progress-bar-thumb {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-color);
+            transition: width 0.2s ease;
+        }
+
+        .progress-caption {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-top: 6px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(8, 12, 12, 0.98);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 2000;
+            background: rgba(10, 15, 15, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.35s var(--cb);
+            transition: opacity 0.3s var(--cb);
         }
 
-        .lightbox-modal.active {
+        .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .lightbox-top {
-            position: absolute;
-            top: 20px;
-            left: 25px;
-            right: 25px;
+        .modal-box {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 620px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: clamp(25px, 5vw, 40px);
+            border-radius: var(--radius);
+        }
+
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #FFFFFF;
-            z-index: 2002;
+            margin-bottom: 25px;
         }
 
-        .lightbox-idx {
+        .modal-header h2 {
             font-family: var(--font-heading);
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            opacity: 0.85;
-        }
-
-        .lightbox-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .lb-btn {
-            background: none;
-            border: none;
-            color: #FFFFFF;
-            cursor: pointer;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            text-decoration: none;
-        }
-
-        .lb-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        .lb-btn.heart-active svg {
-            fill: var(--danger-color);
-        }
-
-        .lb-btn:hover {
-            opacity: 0.7;
-            transform: scale(1.1);
-        }
-
-        .lb-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #FFFFFF;
-            cursor: pointer;
-            padding: 20px;
-            z-index: 2002;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .lb-nav svg {
-            width: 30px;
-            height: 30px;
-            fill: currentColor;
-        }
-
-        .lb-nav:hover {
-            opacity: 0.7;
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .lb-nav.prev { left: 10px; }
-        .lb-nav.next { right: 10px; }
-
-        .lb-stage {
-            max-width: 92vw;
-            max-height: 88vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .lb-stage img {
-            max-width: 100%;
-            max-height: 88vh;
-            object-fit: contain;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            transition: opacity 0.2s var(--cb);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid var(--border-color);
-            margin-top: 40px;
-        }
-
-        footer p {
-            font-family: var(--font-heading);
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
 
-        @media (max-width: 1024px) {
-            .gallery-masonry {
-                column-count: 2;
-                column-gap: 15px;
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (min-width: 768px) {
+            .user-email {
+                display: inline;
             }
-            .photo-card {
-                margin-bottom: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .project-row {
+                grid-template-columns: 70px 1.5fr 1fr auto;
+            }
+            .project-row .row-date {
+                display: none;
             }
         }
 
         @media (max-width: 640px) {
-            header {
-                padding: 12px 16px;
+            .project-row {
+                grid-template-columns: 60px 1fr auto;
+                padding: 12px 14px;
+                gap: 12px;
             }
-            .btn-action span {
+            .project-row .pin-tag {
                 display: none;
             }
-            .btn-action {
-                padding: 8px 10px;
+            .photo-matrix {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 8px;
             }
-            .gallery-masonry {
-                column-count: 1;
+            .top-toolbar {
+                flex-direction: column;
+                align-items: stretch;
             }
-            .lb-nav.prev { left: 2px; }
-            .lb-nav.next { right: 2px; }
-            .lb-nav { padding: 10px; }
+            .search-box {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -608,374 +688,635 @@
     <header>
         <a href="/" class="header-logo">
             <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO">
+            <span class="admin-tag">Projektai</span>
         </a>
-        <div class="header-actions">
-            <a id="downloadArchiveBtn" href="#" class="btn-action" style="display: none;" target="_blank" download>
-                <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
-                <span>Atsisiųsti viską (.zip)</span>
-            </a>
-            <button id="logoutGalleryBtn" class="btn-action btn-exit" title="Išeiti">
+        <div class="admin-nav hidden" id="headerNav">
+            <span class="user-email" id="userEmailTag"></span>
+            <button class="btn-icon-text btn-danger" id="logoutBtn">
                 <svg viewBox="0 0 24 24"><path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.89-2-2-2z"/></svg>
+                <span>Atsijungti</span>
             </button>
         </div>
     </header>
 
-    <main class="container">
-        <section class="hero-info">
-            <div class="hero-meta-badge" id="heroBadge">Kliento Galerija</div>
-            <h1 class="gallery-heading" id="galleryTitleName">Kraunama...</h1>
-            <p class="gallery-category" id="galleryCategoryName"></p>
-            <div class="divider"></div>
-        </section>
-
-        <section class="story-card" id="storyBox" style="display: none;">
-            <div class="story-content" id="storyText"></div>
-            <div class="story-signature">DP.PORTFOLIO</div>
-        </section>
-
-        <div class="filter-bar">
-            <div class="filter-tabs">
-                <button class="filter-tab-btn active" id="tabAll">Visi kadrai (<span id="countAll">0</span>)</button>
-                <button class="filter-tab-btn" id="tabFavs">Mėgstamiausi (<span id="countFavs">0</span>)</button>
+    <main>
+        <section id="authSection" class="auth-card">
+            <h1>Prisijungimas</h1>
+            <div class="form-group">
+                <input type="email" id="authEmail" class="form-input" placeholder="dominikphotofficial.lt@gmail.com">
             </div>
-            <button class="btn-copy-favs" id="copyFavsBtn">
-                <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                <span>Kopijuoti atrinktų sąrašą</span>
-            </button>
-        </div>
+            <div class="form-group">
+                <input type="password" id="authPass" class="form-input" placeholder="Slaptažodis">
+            </div>
+            <button id="authBtn" class="btn-icon-text btn-primary" style="width:100%; justify-content:center; padding:14px;">Prisijungti</button>
+            <p id="authError" style="color:var(--danger-color); font-size:0.75rem; margin-top:15px; letter-spacing:1px; text-transform:uppercase; display:none;"></p>
+        </section>
 
-        <section class="gallery-masonry" id="photosGrid"></section>
+        <section id="listSection" class="hidden">
+            <div class="top-toolbar">
+                <h1 class="page-title">Projektai</h1>
+                <button class="btn-icon-text btn-primary" id="openCreateModalBtn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    <span>Naujas projektas</span>
+                </button>
+            </div>
 
-        <section class="review-box">
-            <h2>Palikite atsiliepimą</h2>
-            <form id="clientReviewForm">
-                <div class="form-row">
-                    <label class="label-text">Jūsų vardas</label>
-                    <input type="text" id="rName" class="input-control" placeholder="Vardas Pavardė" required>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-label">Aktyvios galerijos</div>
+                    <div class="stat-val" id="statGalleriesCount">0</div>
                 </div>
+                <div class="stat-item">
+                    <div class="stat-label">Viso kadrų</div>
+                    <div class="stat-val" id="statPhotosCount">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Atsiliepimai</div>
+                    <div class="stat-val" id="statReviewsCount">0</div>
+                </div>
+            </div>
 
-                <div class="form-row">
-                    <label class="label-text">Įvertinimas</label>
-                    <div class="stars-container" id="starsWrapper">
-                        <svg data-rate="1" viewBox="0 0 24 24" class="active"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg data-rate="2" viewBox="0 0 24 24" class="active"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg data-rate="3" viewBox="0 0 24 24" class="active"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg data-rate="4" viewBox="0 0 24 24" class="active"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg data-rate="5" viewBox="0 0 24 24" class="active"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <div class="top-toolbar" style="margin-bottom: 20px;">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="projectSearchInput" placeholder="Ieškoti projekto arba PIN...">
+                </div>
+            </div>
+
+            <div class="project-table-card" id="projectsContainer"></div>
+        </section>
+
+        <section id="workspaceSection" class="hidden">
+            <button class="back-nav" id="wsBackBtn">
+                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                <span>Visi projektai</span>
+            </button>
+
+            <div class="workspace-header">
+                <div>
+                    <h1 class="page-title" id="wsGalleryTitle">Kraunama...</h1>
+                    <p id="wsGallerySubtitle" style="font-size:0.85rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-muted); margin-top:4px;"></p>
+                </div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-icon-text" id="wsShareBtn">
+                        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                        <span>Dalintis PIN</span>
+                    </button>
+                    <button class="btn-icon-text btn-primary" id="wsPreviewBtn">
+                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                        <span>Kliento peržiūra</span>
+                    </button>
+                </div>
+            </div>
+
+            <nav class="workspace-tabs">
+                <button class="ws-tab-btn active" data-wstab="wsPhotosTab">Nuotraukos (<span id="wsPhotosCount">0</span>)</button>
+                <button class="ws-tab-btn" data-wstab="wsStoryTab">Aprašymas / Tekstas</button>
+                <button class="ws-tab-btn" data-wstab="wsSettingsTab">Nustatymai</button>
+            </nav>
+
+            <div id="wsPhotosTab" class="ws-tab-content">
+                <div class="ws-grid-toolbar">
+                    <div style="font-family:var(--font-heading); font-size:0.85rem; letter-spacing:2px; text-transform:uppercase;">
+                        Viso failų: <span id="wsPhotosBadge" style="color:var(--accent-color); font-weight:600;">0</span>
+                    </div>
+                    <div>
+                        <button class="btn-icon-text btn-primary" id="wsUploadMoreBtn">
+                            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                            <span>Įkelti kadrų</span>
+                        </button>
+                        <input type="file" id="wsFileInput" multiple accept="image/*" class="hidden">
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <label class="label-text">Atsiliepimas</label>
-                    <textarea id="rComment" class="input-control" rows="3" placeholder="Pasidalinkite savo įspūdžiais apie fotosesiją..." required></textarea>
+                <div class="progress-indicator" id="wsUploadProgress">
+                    <div class="progress-bar-rail">
+                        <div class="progress-bar-thumb" id="wsProgressFill"></div>
+                    </div>
+                    <p class="progress-caption" id="wsProgressText">Įkeliama...</p>
                 </div>
 
-                <button type="submit" id="rSubmitBtn" class="btn-send-review">
-                    <span>Išsiųsti atsiliepimą</span>
-                </button>
-            </form>
+                <div class="photo-matrix" id="wsPhotosGrid"></div>
+            </div>
 
-            <div id="reviewDoneBox" style="display:none; text-align:center; padding:20px 0;">
-                <h3 style="font-family:var(--font-heading); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Ačiū už jūsų įvertinimą!</h3>
-                <p style="font-size:0.9rem; color:var(--text-muted);">Atsiliepimas sėkmingai išsiųstas.</p>
+            <div id="wsStoryTab" class="ws-tab-content hidden">
+                <div class="form-pane">
+                    <div class="form-group">
+                        <label class="form-label">Fotosesijos istorija / Padėkos tekstas</label>
+                        <textarea id="wsStoryInput" class="form-input" placeholder="Dvi dienas turėjau galimybę būti kartu su stovyklos dalyviais..."></textarea>
+                    </div>
+                    <button class="btn-icon-text btn-primary" id="wsSaveStoryBtn">Išsaugoti tekstą</button>
+                </div>
+            </div>
+
+            <div id="wsSettingsTab" class="ws-tab-content hidden">
+                <div class="form-pane">
+                    <div class="form-group">
+                        <label class="form-label">Projekto pavadinimas</label>
+                        <input type="text" id="wsSetTitle" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kategorija / Potėmė</label>
+                        <input type="text" id="wsSetSubtitle" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">PIN kodas (6 skaitmenys)</label>
+                        <input type="text" id="wsSetPin" class="form-input" maxlength="6" pattern="[0-9]{6}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fotosesijos data</label>
+                        <input type="date" id="wsSetDate" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kliento el. paštas (nebūtina)</label>
+                        <input type="email" id="wsSetEmail" class="form-input" placeholder="klientas@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ZIP Archyvo nuoroda</label>
+                        <input type="url" id="wsSetZip" class="form-input" placeholder="https://drive.google.com/...">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:35px; flex-wrap:wrap; gap:15px;">
+                        <button class="btn-icon-text btn-primary" id="wsSaveSettingsBtn">Išsaugoti pakeitimus</button>
+                        <button class="btn-icon-text btn-danger" id="wsDeleteGalleryBtn">Ištrinti projektą</button>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
 
-    <div class="lightbox-modal" id="lbModal">
-        <div class="lightbox-top">
-            <span class="lightbox-idx" id="lbCounterText">1 / 1</span>
-            <div class="lightbox-actions">
-                <button class="lb-btn" id="lbHeartBtn" title="Pažymėti širdele">
-                    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </button>
-                <a href="#" id="lbDownloadBtn" class="lb-btn" title="Atsisiųsti nuotrauką" target="_blank" download>
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                </a>
-                <button class="lb-btn" id="lbCloseButton" title="Uždaryti">
-                    <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
+    <div class="modal-overlay" id="createModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2>Naujas projektas</h2>
+                <button class="modal-close" id="closeCreateModalBtn">&times;</button>
             </div>
+            <form id="createGalleryForm">
+                <div class="form-group">
+                    <label class="form-label">Pavadinimas</label>
+                    <input type="text" id="cgTitle" class="form-input" placeholder="Pvz. ŽEIMENOS ŽIRGAI" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kategorija</label>
+                    <input type="text" id="cgSubtitle" class="form-input" placeholder="Pvz. Vasaros stovyklos fotosesija" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">PIN kodas (6 skaitmenys)</label>
+                    <input type="text" id="cgPin" class="form-input" placeholder="123456" maxlength="6" pattern="[0-9]{6}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fotosesijos data</label>
+                    <input type="date" id="cgDate" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ZIP Archyvo nuoroda (nebūtina)</label>
+                    <input type="url" id="cgZip" class="form-input" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nuotraukos</label>
+                    <div class="drop-box" id="cgDropBox">
+                        <p id="cgDropLabel">Tempkite nuotraukas čia arba spustelėkite</p>
+                        <input type="file" id="cgFileInput" multiple accept="image/*" class="hidden">
+                    </div>
+                </div>
+                <div class="progress-indicator" id="cgProgress">
+                    <div class="progress-bar-rail">
+                        <div class="progress-bar-thumb" id="cgProgressThumb"></div>
+                    </div>
+                    <p class="progress-caption" id="cgProgressCaption">Įkeliama...</p>
+                </div>
+                <button type="submit" class="btn-icon-text btn-primary" id="cgSubmitBtn" style="width:100%; justify-content:center; padding:15px; margin-top:20px;">Sukurti projektą</button>
+            </form>
         </div>
-
-        <button class="lb-nav prev" id="lbLeftBtn">
-            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        </button>
-
-        <div class="lb-stage">
-            <img src="" id="lbDisplayImg" alt="Nuotrauka">
-        </div>
-
-        <button class="lb-nav next" id="lbRightBtn">
-            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-        </button>
     </div>
 
-    <footer>
-        <p>DP.PORTFOLIO &copy; 2026. Visos teisės saugomos.</p>
-    </footer>
-
     <script type="module">
-        import { db } from './firebase-config.js';
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { auth, db, storage } from './firebase-config.js';
+        import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        const raw = sessionStorage.getItem('clientGallery');
-        if (!raw) {
-            window.location.replace('index.html');
-        }
+        const authSection = document.getElementById('authSection');
+        const listSection = document.getElementById('listSection');
+        const workspaceSection = document.getElementById('workspaceSection');
+        const headerNav = document.getElementById('headerNav');
+        const userEmailTag = document.getElementById('userEmailTag');
+        const logoutBtn = document.getElementById('logoutBtn');
 
-        const data = JSON.parse(raw);
-        const galleryKey = `favs_${data.pin || 'default'}`;
-        let favorites = JSON.parse(localStorage.getItem(galleryKey) || '[]');
-        let currentFilter = 'all';
+        const authEmail = document.getElementById('authEmail');
+        const authPass = document.getElementById('authPass');
+        const authBtn = document.getElementById('authBtn');
+        const authError = document.getElementById('authError');
 
-        document.getElementById('galleryTitleName').innerText = data.title || 'Galerija';
-        document.getElementById('galleryCategoryName').innerText = data.subtitle || '';
+        const projectsContainer = document.getElementById('projectsContainer');
+        const statGalleriesCount = document.getElementById('statGalleriesCount');
+        const statPhotosCount = document.getElementById('statPhotosCount');
+        const statReviewsCount = document.getElementById('statReviewsCount');
+        const projectSearchInput = document.getElementById('projectSearchInput');
 
-        const photos = data.photos || [];
-        const dateStr = data.date ? new Date(data.date).toLocaleDateString('lt-LT') : '';
-        document.getElementById('heroBadge').innerText = `${photos.length} KADRŲ ${dateStr ? '• ' + dateStr : ''}`;
+        const createModal = document.getElementById('createModal');
+        const openCreateModalBtn = document.getElementById('openCreateModalBtn');
+        const closeCreateModalBtn = document.getElementById('closeCreateModalBtn');
+        const createGalleryForm = document.getElementById('createGalleryForm');
+        const cgDropBox = document.getElementById('cgDropBox');
+        const cgFileInput = document.getElementById('cgFileInput');
+        const cgDropLabel = document.getElementById('cgDropLabel');
+        const cgProgress = document.getElementById('cgProgress');
+        const cgProgressThumb = document.getElementById('cgProgressThumb');
+        const cgProgressCaption = document.getElementById('cgProgressCaption');
+        const cgSubmitBtn = document.getElementById('cgSubmitBtn');
 
-        if (data.description && data.description.trim()) {
-            document.getElementById('storyText').innerText = data.description;
-            document.getElementById('storyBox').style.display = 'block';
-        }
+        let allProjects = [];
+        let activeProject = null;
+        let pendingCreateFiles = [];
 
-        const zipBtn = document.getElementById('downloadArchiveBtn');
-        if (data.zip_url) {
-            zipBtn.href = data.zip_url;
-            zipBtn.style.display = 'inline-flex';
-        }
-
-        document.getElementById('logoutGalleryBtn').addEventListener('click', () => {
-            sessionStorage.removeItem('clientGallery');
-            window.location.replace('index.html');
+        onAuthStateChanged(auth, async (user) => {
+            if (user && user.email === 'dominikphotofficial.lt@gmail.com') {
+                authSection.classList.add('hidden');
+                listSection.classList.remove('hidden');
+                headerNav.classList.remove('hidden');
+                userEmailTag.innerText = user.email;
+                await loadProjects();
+            } else {
+                authSection.classList.remove('hidden');
+                listSection.classList.add('hidden');
+                workspaceSection.classList.add('hidden');
+                headerNav.classList.add('hidden');
+            }
         });
 
-        const grid = document.getElementById('photosGrid');
-        const countAll = document.getElementById('countAll');
-        const countFavs = document.getElementById('countFavs');
-        const tabAll = document.getElementById('tabAll');
-        const tabFavs = document.getElementById('tabFavs');
-        const copyFavsBtn = document.getElementById('copyFavsBtn');
+        authBtn.addEventListener('click', async () => {
+            const email = authEmail.value.trim();
+            const pass = authPass.value;
+            if (!email || !pass) return;
 
-        countAll.innerText = photos.length;
-        countFavs.innerText = favorites.length;
+            authBtn.innerText = 'Tikrinama...';
+            authBtn.disabled = true;
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                authError.innerText = 'Neteisingi prisijungimo duomenys';
+                authError.style.display = 'block';
+            } finally {
+                authBtn.innerText = 'Prisijungti';
+                authBtn.disabled = false;
+            }
+        });
 
-        function updateFavoritesBadge() {
-            countFavs.innerText = favorites.length;
-            localStorage.setItem(galleryKey, JSON.stringify(favorites));
-            copyFavsBtn.style.display = favorites.length > 0 ? 'inline-flex' : 'none';
+        logoutBtn.addEventListener('click', () => signOut(auth));
+
+        async function loadProjects() {
+            const snap = await getDocs(query(collection(db, "galleries"), orderBy("date", "desc")));
+            allProjects = [];
+            let totalPhotos = 0;
+
+            snap.forEach((docSnap) => {
+                const item = { id: docSnap.id, ...docSnap.data() };
+                allProjects.push(item);
+                totalPhotos += (item.photos ? item.photos.length : 0);
+            });
+
+            const rSnap = await getDocs(collection(db, "reviews"));
+            statReviewsCount.innerText = rSnap.size;
+            statGalleriesCount.innerText = allProjects.length;
+            statPhotosCount.innerText = totalPhotos;
+
+            renderProjectList(allProjects);
         }
 
-        updateFavoritesBadge();
-
-        tabAll.addEventListener('click', () => {
-            currentFilter = 'all';
-            tabAll.classList.add('active');
-            tabFavs.classList.remove('active');
-            renderGrid();
-        });
-
-        tabFavs.addEventListener('click', () => {
-            currentFilter = 'favs';
-            tabFavs.classList.add('active');
-            tabAll.classList.remove('active');
-            renderGrid();
-        });
-
-        copyFavsBtn.addEventListener('click', () => {
-            if (favorites.length === 0) return;
-            const text = `Kliento atrinkti kadrai (${data.title}):\n` + favorites.map((f, i) => `${i + 1}. ${f}`).join('\n');
-            navigator.clipboard.writeText(text);
-            alert(`Atrinktų nuotraukų sąrašas nukopijuotas (${favorites.length} vnt.)!`);
-        });
-
-        let activeDisplayPhotos = [];
-        let currentIdx = 0;
-
-        function renderGrid() {
-            grid.innerHTML = '';
-            activeDisplayPhotos = currentFilter === 'all' 
-                ? photos 
-                : photos.filter(p => favorites.includes(p.full || p.thumb));
-
-            if (activeDisplayPhotos.length === 0) {
-                grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:50px; opacity:0.5; text-transform:uppercase; letter-spacing:2px;">Mėgstamiausių nuotraukų kol kas nėra</p>';
+        function renderProjectList(list) {
+            projectsContainer.innerHTML = '';
+            if (list.length === 0) {
+                projectsContainer.innerHTML = '<p style="text-align:center; padding:50px; opacity:0.5; text-transform:uppercase; letter-spacing:2px;">Projektų nėra</p>';
                 return;
             }
 
-            activeDisplayPhotos.forEach((p, idx) => {
-                const isFav = favorites.includes(p.full || p.thumb);
-                const card = document.createElement('div');
-                card.className = 'photo-card';
-                card.innerHTML = `
-                    <button class="fav-heart-btn ${isFav ? 'active' : ''}" title="Mėgstamiausia">
-                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                    </button>
-                    <img src="${p.thumb}" loading="lazy" alt="Kadras">
-                    <div class="photo-hover-overlay">
-                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            list.forEach((p) => {
+                const cover = (p.photos && p.photos.length > 0) ? p.photos[0].thumb : '';
+                const count = p.photos ? p.photos.length : 0;
+                const dateStr = p.date ? new Date(p.date).toLocaleDateString('lt-LT') : '—';
+
+                const row = document.createElement('div');
+                row.className = 'project-row';
+                row.innerHTML = `
+                    <img src="${cover}" class="project-thumb" alt="Cover">
+                    <div class="project-meta-main">
+                        <h3>${p.title || 'Be pavadinimo'}</h3>
+                        <p>${p.subtitle || ''}</p>
+                    </div>
+                    <div>
+                        <span class="pin-tag">PIN: ${p.pin}</span>
+                    </div>
+                    <div class="row-text row-date">${count} kadrų &bull; ${dateStr}</div>
+                    <div class="row-actions">
+                        <button class="icon-btn btn-open-ws" title="Atidaryti projektą">
+                            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        </button>
+                        <button class="icon-btn delete-btn btn-del" title="Ištrinti">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        </button>
                     </div>
                 `;
 
-                card.querySelector('.fav-heart-btn').addEventListener('click', (e) => {
+                row.addEventListener('click', (e) => {
+                    if (!e.target.closest('.row-actions')) {
+                        openWorkspace(p);
+                    }
+                });
+
+                row.querySelector('.btn-open-ws').onclick = (e) => {
                     e.stopPropagation();
-                    toggleFavorite(p.full || p.thumb);
-                });
+                    openWorkspace(p);
+                };
 
-                card.addEventListener('click', () => showLightbox(idx));
-                grid.appendChild(card);
+                row.querySelector('.btn-del').onclick = async (e) => {
+                    e.stopPropagation();
+                    if (confirm(`Ištrinti projektą "${p.title}"?`)) {
+                        await deleteDoc(doc(db, "galleries", p.id));
+                        await loadProjects();
+                    }
+                };
+
+                projectsContainer.appendChild(row);
             });
         }
 
-        function toggleFavorite(photoUrl) {
-            if (favorites.includes(photoUrl)) {
-                favorites = favorites.filter(u => u !== photoUrl);
-            } else {
-                favorites.push(photoUrl);
-            }
-            updateFavoritesBadge();
-            renderGrid();
-            updateLightboxHeart();
-        }
-
-        renderGrid();
-
-        const lbModal = document.getElementById('lbModal');
-        const lbDisplayImg = document.getElementById('lbDisplayImg');
-        const lbCounterText = document.getElementById('lbCounterText');
-        const lbDownloadBtn = document.getElementById('lbDownloadBtn');
-        const lbHeartBtn = document.getElementById('lbHeartBtn');
-        const lbCloseButton = document.getElementById('lbCloseButton');
-        const lbLeftBtn = document.getElementById('lbLeftBtn');
-        const lbRightBtn = document.getElementById('lbRightBtn');
-
-        function showLightbox(idx) {
-            currentIdx = idx;
-            renderLightbox();
-            lbModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function hideLightbox() {
-            lbModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function renderLightbox() {
-            const p = activeDisplayPhotos[currentIdx];
-            if (!p) return;
-
-            lbCounterText.innerText = `${currentIdx + 1} / ${activeDisplayPhotos.length}`;
-            lbDownloadBtn.href = p.full || p.thumb;
-            updateLightboxHeart();
-
-            lbDisplayImg.style.opacity = '0';
-            const cacheImg = new Image();
-            cacheImg.src = p.full || p.thumb;
-            cacheImg.onload = () => {
-                lbDisplayImg.src = cacheImg.src;
-                lbDisplayImg.style.opacity = '1';
-            };
-        }
-
-        function updateLightboxHeart() {
-            const p = activeDisplayPhotos[currentIdx];
-            if (!p) return;
-            const isFav = favorites.includes(p.full || p.thumb);
-            lbHeartBtn.classList.toggle('heart-active', isFav);
-        }
-
-        lbHeartBtn.addEventListener('click', () => {
-            const p = activeDisplayPhotos[currentIdx];
-            if (p) toggleFavorite(p.full || p.thumb);
+        projectSearchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim();
+            const filtered = allProjects.filter(p => 
+                (p.title && p.title.toLowerCase().includes(val)) ||
+                (p.subtitle && p.subtitle.toLowerCase().includes(val)) ||
+                (p.pin && p.pin.includes(val))
+            );
+            renderProjectList(filtered);
         });
 
-        function nextPhoto() {
-            if (!activeDisplayPhotos.length) return;
-            currentIdx = (currentIdx + 1) % activeDisplayPhotos.length;
-            renderLightbox();
-        }
+        openCreateModalBtn.onclick = () => {
+            createGalleryForm.reset();
+            pendingCreateFiles = [];
+            cgDropLabel.innerText = "Tempkite nuotraukas čia arba spustelėkite";
+            cgProgress.style.display = 'none';
+            createModal.classList.add('active');
+        };
 
-        function prevPhoto() {
-            if (!activeDisplayPhotos.length) return;
-            currentIdx = (currentIdx - 1 + activeDisplayPhotos.length) % activeDisplayPhotos.length;
-            renderLightbox();
-        }
+        closeCreateModalBtn.onclick = () => createModal.classList.remove('active');
 
-        lbCloseButton.addEventListener('click', hideLightbox);
-        lbRightBtn.addEventListener('click', nextPhoto);
-        lbLeftBtn.addEventListener('click', prevPhoto);
+        cgDropBox.onclick = () => cgFileInput.click();
 
-        lbModal.addEventListener('click', (e) => {
-            if (e.target === lbModal || e.target.classList.contains('lb-stage')) {
-                hideLightbox();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (!lbModal.classList.contains('active')) return;
-            if (e.key === 'Escape') hideLightbox();
-            if (e.key === 'ArrowRight') nextPhoto();
-            if (e.key === 'ArrowLeft') prevPhoto();
-        });
-
-        let currentRate = 5;
-        const starNodes = document.querySelectorAll('#starsWrapper svg');
-
-        starNodes.forEach((s) => {
-            s.addEventListener('mouseenter', () => {
-                const r = parseInt(s.dataset.rate);
-                starNodes.forEach(node => {
-                    node.classList.toggle('hover', parseInt(node.dataset.rate) <= r);
-                });
-            });
-
-            s.addEventListener('mouseleave', () => {
-                starNodes.forEach(node => node.classList.remove('hover'));
-            });
-
-            s.addEventListener('click', () => {
-                currentRate = parseInt(s.dataset.rate);
-                starNodes.forEach(node => {
-                    node.classList.toggle('active', parseInt(node.dataset.rate) <= currentRate);
-                });
-            });
-        });
-
-        const reviewForm = document.getElementById('clientReviewForm');
-        const rSubmitBtn = document.getElementById('rSubmitBtn');
-        const reviewDoneBox = document.getElementById('reviewDoneBox');
-
-        reviewForm.addEventListener('submit', async (e) => {
+        cgDropBox.ondragover = (e) => { e.preventDefault(); cgDropBox.classList.add('dragover'); };
+        cgDropBox.ondragleave = () => cgDropBox.classList.remove('dragover');
+        cgDropBox.ondrop = (e) => {
             e.preventDefault();
-            const name = document.getElementById('rName').value.trim();
-            const text = document.getElementById('rComment').value.trim();
+            cgDropBox.classList.remove('dragover');
+            pendingCreateFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            cgDropLabel.innerText = `Pasirinkta nuotraukų: ${pendingCreateFiles.length}`;
+        };
 
-            if (!name || !text) return;
+        cgFileInput.onchange = (e) => {
+            pendingCreateFiles = Array.from(e.target.files);
+            cgDropLabel.innerText = `Pasirinkta nuotraukų: ${pendingCreateFiles.length}`;
+        };
 
-            rSubmitBtn.disabled = true;
-            rSubmitBtn.querySelector('span').innerText = 'Siunčiama...';
+        createGalleryForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const pin = document.getElementById('cgPin').value.trim();
+            const title = document.getElementById('cgTitle').value.trim();
+            const subtitle = document.getElementById('cgSubtitle').value.trim();
+            const date = document.getElementById('cgDate').value || new Date().toISOString().split('T')[0];
+            const zip = document.getElementById('cgZip').value.trim();
+
+            if (pendingCreateFiles.length === 0) {
+                alert("Pridėkite bent vieną nuotrauką");
+                return;
+            }
+
+            cgSubmitBtn.disabled = true;
+            cgProgress.style.display = 'block';
+
+            const uploaded = [];
+            try {
+                for (let i = 0; i < pendingCreateFiles.length; i++) {
+                    const file = pendingCreateFiles[i];
+                    const storageRef = ref(storage, `galleries/${pin}/${Date.now()}_${file.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            (snap) => {
+                                const percent = ((i + (snap.bytesTransferred / snap.totalBytes)) / pendingCreateFiles.length) * 100;
+                                cgProgressThumb.style.width = `${percent}%`;
+                                cgProgressCaption.innerText = `Keliama: ${i + 1} iš ${pendingCreateFiles.length} (${Math.round(percent)}%)`;
+                            },
+                            (err) => reject(err),
+                            async () => {
+                                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                                uploaded.push({ thumb: url, full: url, name: file.name });
+                                resolve();
+                            }
+                        );
+                    });
+                }
+
+                await addDoc(collection(db, "galleries"), {
+                    title,
+                    subtitle,
+                    pin,
+                    date,
+                    zip_url: zip || null,
+                    description: "",
+                    photos: uploaded,
+                    createdAt: new Date().toISOString()
+                });
+
+                createModal.classList.remove('active');
+                cgSubmitBtn.disabled = false;
+                await loadProjects();
+
+            } catch (error) {
+                alert("Klaida įkeliant galeriją.");
+                cgSubmitBtn.disabled = false;
+            }
+        };
+
+        function openWorkspace(gallery) {
+            activeProject = gallery;
+            listSection.classList.add('hidden');
+            workspaceSection.classList.remove('hidden');
+
+            document.getElementById('wsGalleryTitle').innerText = gallery.title || 'Galerija';
+            document.getElementById('wsGallerySubtitle').innerText = gallery.subtitle || '';
+            document.getElementById('wsStoryInput').value = gallery.description || '';
+
+            document.getElementById('wsSetTitle').value = gallery.title || '';
+            document.getElementById('wsSetSubtitle').value = gallery.subtitle || '';
+            document.getElementById('wsSetPin').value = gallery.pin || '';
+            document.getElementById('wsSetDate').value = gallery.date || '';
+            document.getElementById('wsSetEmail').value = gallery.client_email || '';
+            document.getElementById('wsSetZip').value = gallery.zip_url || '';
+
+            renderWorkspacePhotos();
+        }
+
+        document.getElementById('wsBackBtn').onclick = () => {
+            workspaceSection.classList.add('hidden');
+            listSection.classList.remove('hidden');
+            loadProjects();
+        };
+
+        document.querySelectorAll('.ws-tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.ws-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.ws-tab-content').forEach(c => c.classList.add('hidden'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.wstab).classList.remove('hidden');
+            };
+        });
+
+        document.getElementById('wsPreviewBtn').onclick = () => {
+            sessionStorage.setItem('clientGallery', JSON.stringify(activeProject));
+            window.open('/gallery.html', '_blank');
+        };
+
+        document.getElementById('wsShareBtn').onclick = () => {
+            navigator.clipboard.writeText(`PIN: ${activeProject.pin} | clients.dominikphotofficial.lt`);
+            alert(`PIN kodas (${activeProject.pin}) nukopijuotas!`);
+        };
+
+        function renderWorkspacePhotos() {
+            const grid = document.getElementById('wsPhotosGrid');
+            grid.innerHTML = '';
+            const photos = activeProject.photos || [];
+
+            document.getElementById('wsPhotosCount').innerText = photos.length;
+            document.getElementById('wsPhotosBadge').innerText = photos.length;
+
+            photos.forEach((photo, idx) => {
+                const cell = document.createElement('div');
+                cell.className = 'photo-cell';
+                cell.innerHTML = `
+                    <img src="${photo.thumb}" loading="lazy" alt="Photo">
+                    <button class="photo-cell-delete" title="Ištrinti nuotrauką">
+                        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                    </button>
+                `;
+
+                cell.querySelector('.photo-cell-delete').onclick = async () => {
+                    if (confirm("Ištrinti šią nuotrauką iš galerijos?")) {
+                        activeProject.photos.splice(idx, 1);
+                        await updateDoc(doc(db, "galleries", activeProject.id), {
+                            photos: activeProject.photos
+                        });
+                        renderWorkspacePhotos();
+                    }
+                };
+
+                grid.appendChild(cell);
+            });
+        }
+
+        const wsFileInput = document.getElementById('wsFileInput');
+        const wsUploadMoreBtn = document.getElementById('wsUploadMoreBtn');
+        const wsUploadProgress = document.getElementById('wsUploadProgress');
+        const wsProgressFill = document.getElementById('wsProgressFill');
+        const wsProgressText = document.getElementById('wsProgressText');
+
+        wsUploadMoreBtn.onclick = () => wsFileInput.click();
+
+        wsFileInput.onchange = async (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+
+            wsUploadProgress.style.display = 'block';
+            wsUploadMoreBtn.disabled = true;
 
             try {
-                await addDoc(collection(db, "reviews"), {
-                    galleryTitle: data.title || '',
-                    name: name,
-                    rating: currentRate,
-                    text: text,
-                    status: 'pending',
-                    date: new Date().toISOString()
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const storageRef = ref(storage, `galleries/${activeProject.pin}/${Date.now()}_${file.name}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    await new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            (snap) => {
+                                const percent = ((i + (snap.bytesTransferred / snap.totalBytes)) / files.length) * 100;
+                                wsProgressFill.style.width = `${percent}%`;
+                                wsProgressText.innerText = `Keliama: ${i + 1} iš ${files.length} (${Math.round(percent)}%)`;
+                            },
+                            (err) => reject(err),
+                            async () => {
+                                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                                if (!activeProject.photos) activeProject.photos = [];
+                                activeProject.photos.push({ thumb: url, full: url, name: file.name });
+                                resolve();
+                            }
+                        );
+                    });
+                }
+
+                await updateDoc(doc(db, "galleries", activeProject.id), {
+                    photos: activeProject.photos
                 });
 
-                reviewForm.style.display = 'none';
-                reviewDoneBox.style.display = 'block';
+                wsUploadProgress.style.display = 'none';
+                wsUploadMoreBtn.disabled = false;
+                wsFileInput.value = '';
+                renderWorkspacePhotos();
+
             } catch (err) {
-                alert('Klaida siunčiant atsiliepimą.');
-                rSubmitBtn.disabled = false;
-                rSubmitBtn.querySelector('span').innerText = 'Išsiųsti atsiliepimą';
+                alert("Klaida papildant galeriją");
+                wsUploadProgress.style.display = 'none';
+                wsUploadMoreBtn.disabled = false;
             }
-        });
+        };
+
+        document.getElementById('wsSaveStoryBtn').onclick = async () => {
+            const text = document.getElementById('wsStoryInput').value;
+            await updateDoc(doc(db, "galleries", activeProject.id), {
+                description: text
+            });
+            activeProject.description = text;
+            alert("Aprašymas sėkmingai išsaugotas!");
+        };
+
+        document.getElementById('wsSaveSettingsBtn').onclick = async () => {
+            const title = document.getElementById('wsSetTitle').value.trim();
+            const subtitle = document.getElementById('wsSetSubtitle').value.trim();
+            const pin = document.getElementById('wsSetPin').value.trim();
+            const date = document.getElementById('wsSetDate').value;
+            const client_email = document.getElementById('wsSetEmail').value.trim();
+            const zip_url = document.getElementById('wsSetZip').value.trim();
+
+            if (!title || pin.length !== 6) return alert("Užpildykite visus privalomus laukus");
+
+            await updateDoc(doc(db, "galleries", activeProject.id), {
+                title,
+                subtitle,
+                pin,
+                date,
+                client_email: client_email || null,
+                zip_url: zip_url || null
+            });
+
+            activeProject.title = title;
+            activeProject.subtitle = subtitle;
+            activeProject.pin = pin;
+            activeProject.date = date;
+            activeProject.client_email = client_email;
+            activeProject.zip_url = zip_url;
+
+            document.getElementById('wsGalleryTitle').innerText = title;
+            document.getElementById('wsGallerySubtitle').innerText = subtitle;
+
+            alert("Nustatymai sėkmingai atnaujinti!");
+        };
+
+        document.getElementById('wsDeleteGalleryBtn').onclick = async () => {
+            if (confirm(`Ar tikrai norite ištrinti visą projektą "${activeProject.title}"?`)) {
+                await deleteDoc(doc(db, "galleries", activeProject.id));
+                workspaceSection.classList.add('hidden');
+                listSection.classList.remove('hidden');
+                await loadProjects();
+            }
+        };
     </script>
 </body>
 </html>
