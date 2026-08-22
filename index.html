@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Klientų Prieiga — DP.PORTFOLIO</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
+    <meta property="og:title" content="Klientų Galerija — DP.PORTFOLIO">
+    <meta property="og:description" content="Privati klientų fotosesijų peržiūros erdvė">
+    <meta property="og:image" content="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -40,7 +45,6 @@
             flex-direction: column;
             justify-content: space-between;
             overflow-x: hidden;
-            position: relative;
         }
 
         #preloader {
@@ -246,7 +250,7 @@
         <div class="login-card" id="cardContainer">
             <div class="tagline">Klientų Zona</div>
             <h1 class="login-title">Įveskite PIN</h1>
-            <p class="login-desc">Įveskite 6 skaitmenų prieigos kodą</p>
+            <p class="login-desc" id="loginDescription">Įveskite 6 skaitmenų prieigos kodą</p>
 
             <div class="pin-inputs" id="pinGroup">
                 <input type="tel" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="pin-cell" autofocus autocomplete="off">
@@ -274,16 +278,28 @@
         import { db } from './firebase-config.js';
         import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.display = 'none', 500);
-            document.getElementById('cardContainer').classList.add('visible');
-        });
-
         const cells = Array.from(document.querySelectorAll('.pin-cell'));
         const submitBtn = document.getElementById('submitPinBtn');
         const errorMsg = document.getElementById('errorMsg');
+        const cardContainer = document.getElementById('cardContainer');
+        const preloader = document.getElementById('preloader');
+
+        window.addEventListener('load', async () => {
+            preloader.style.opacity = '0';
+            setTimeout(() => preloader.style.display = 'none', 400);
+            cardContainer.classList.add('visible');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const directPin = urlParams.get('pin') || window.location.hash.replace('#', '');
+
+            if (directPin && directPin.length === 6) {
+                directPin.split('').forEach((digit, i) => {
+                    if (cells[i]) cells[i].value = digit;
+                });
+                window.history.replaceState({}, document.title, window.location.pathname);
+                await verifyPin();
+            }
+        });
 
         cells.forEach((cell, idx) => {
             cell.addEventListener('input', (e) => {
