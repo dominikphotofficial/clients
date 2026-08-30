@@ -8,504 +8,13 @@
     <link rel="apple-touch-icon" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .admin-tag {
-            font-family: var(--font-heading);
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: var(--accent-soft);
-            color: var(--accent-color);
-            padding: 3px 8px;
-            font-weight: 600;
-        }
-
-        .user-email-tag {
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            display: none;
-        }
-
-        .btn-ui {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-color);
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            border-radius: var(--radius);
-        }
-
-        .btn-ui svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .btn-ui:hover {
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border-color: var(--accent-color);
-        }
-
-        .btn-ui.primary {
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border-color: var(--accent-color);
-        }
-
-        .btn-ui.primary:hover {
-            background: var(--accent-light);
-            border-color: var(--accent-light);
-        }
-
-        .btn-ui.danger:hover {
-            background: var(--danger-color);
-            border-color: var(--danger-color);
-            color: #FFFFFF;
-        }
-
-        .auth-box {
-            max-width: 420px;
-            margin: 80px auto;
-            background: var(--surface-color);
-            padding: clamp(30px, 5vw, 50px);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 10px 40px rgba(17, 57, 57, 0.03);
-            text-align: center;
-        }
-
-        .auth-box h1 {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            font-weight: 400;
-        }
-
-        .tabs-nav {
-            display: flex;
-            gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .tabs-nav::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            padding: 14px 20px;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            white-space: nowrap;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .tab-btn.active {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--accent-color);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--surface-color);
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-        }
-
-        .stat-label {
-            font-family: var(--font-heading);
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .stat-value {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--accent-color);
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            max-width: 400px;
-            min-width: 240px;
-        }
-
-        .search-box input {
-            width: 100%;
-            height: 44px;
-            padding: 0 16px 0 38px;
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            font-family: var(--font-body);
-            font-size: 16px;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent-color);
-        }
-
-        .search-box svg {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            fill: var(--text-muted);
-        }
-
-        .project-list-card {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-        }
-
-        .project-row {
-            display: grid;
-            grid-template-columns: 80px 2fr 1fr 1fr 160px;
-            align-items: center;
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-color);
-            gap: 15px;
-            transition: background 0.2s ease;
-            cursor: pointer;
-        }
-
-        .project-row:last-child {
-            border-bottom: none;
-        }
-
-        .project-row:hover {
-            background: var(--surface-hover);
-        }
-
-        .project-thumb {
-            width: 80px;
-            height: 55px;
-            object-fit: cover;
-            background: #EAE8E4;
-            border-radius: var(--radius);
-        }
-
-        .project-meta-main h3 {
-            font-family: var(--font-heading);
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 500;
-            margin-bottom: 3px;
-        }
-
-        .project-meta-main p {
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .pin-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--accent-soft);
-            padding: 4px 10px;
-            font-family: var(--font-heading);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            font-weight: 500;
-            color: var(--accent-color);
-            width: fit-content;
-        }
-
-        .row-text {
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-        }
-
-        .row-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .icon-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            border-radius: var(--radius);
-        }
-
-        .icon-btn svg {
-            width: 15px;
-            height: 15px;
-            fill: currentColor;
-        }
-
-        .icon-btn:hover {
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border-color: var(--accent-color);
-        }
-
-        .icon-btn.delete-btn:hover {
-            background: var(--danger-color);
-            border-color: var(--danger-color);
-            color: #FFFFFF;
-        }
-
-        .photo-matrix {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .photo-cell {
-            position: relative;
-            aspect-ratio: 1 / 1;
-            background: #E8E6E3;
-            overflow: hidden;
-            border-radius: var(--radius);
-        }
-
-        .photo-cell img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-cell-del {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(10, 15, 15, 0.7);
-            border: none;
-            color: #FFFFFF;
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s ease, background 0.2s ease;
-            border-radius: 2px;
-        }
-
-        .photo-cell-del svg {
-            width: 13px;
-            height: 13px;
-            fill: currentColor;
-        }
-
-        .photo-cell:hover .photo-cell-del {
-            opacity: 1;
-        }
-
-        .photo-cell-del:hover {
-            background: var(--danger-color);
-        }
-
-        .drop-box {
-            border: 2px dashed var(--accent-color);
-            padding: 35px 20px;
-            text-align: center;
-            cursor: pointer;
-            background: var(--accent-soft);
-            transition: background 0.2s ease;
-            border-radius: var(--radius);
-        }
-
-        .drop-box.dragover {
-            background: rgba(17, 57, 57, 0.12);
-        }
-
-        .drop-box p {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            color: var(--accent-color);
-        }
-
-        .progress-indicator {
-            margin-top: 15px;
-            display: none;
-        }
-
-        .progress-bar-rail {
-            width: 100%;
-            height: 6px;
-            background: var(--border-color);
-            overflow: hidden;
-        }
-
-        .progress-bar-thumb {
-            height: 100%;
-            width: 0%;
-            background: var(--accent-color);
-            transition: width 0.2s ease;
-        }
-
-        .progress-caption {
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-align: center;
-            margin-top: 6px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .review-item-card {
-            background: var(--surface-color);
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .review-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .review-item-author {
-            font-family: var(--font-heading);
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .review-item-stars {
-            color: var(--gold-color);
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-        }
-
-        .review-item-gallery {
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--accent-light);
-            margin-bottom: 12px;
-        }
-
-        .review-item-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .user-email-tag {
-                display: inline;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .project-row {
-                grid-template-columns: 70px 1.5fr 1fr auto;
-            }
-            .project-row .row-date {
-                display: none;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .project-row {
-                grid-template-columns: 60px 1fr auto;
-                padding: 12px 14px;
-                gap: 12px;
-            }
-            .project-row .pin-pill {
-                display: none;
-            }
-            .photo-matrix {
-                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-                gap: 8px;
-            }
-        }
-    </style>
 </head>
 <body>
 
     <header>
         <a href="/" class="header-brand">
-            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO">
-            <span class="admin-tag">ADMIN</span>
+            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO" class="header-logo brand-logo">
+            <span class="admin-badge">ADMIN</span>
         </a>
         <div class="admin-nav hidden" id="headerNav">
             <span class="user-email-tag" id="userEmailTag"></span>
@@ -516,17 +25,20 @@
         </div>
     </header>
 
-    <main>
-        <section id="authSection" class="auth-box">
-            <h1>Prisijungimas</h1>
-            <div class="form-group">
-                <input type="email" id="authEmail" class="form-input" placeholder="dominikphotofficial.lt@gmail.com">
+    <main class="admin-main">
+        <section id="authSection" class="auth-wrapper">
+            <div class="auth-card">
+                <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO" class="brand-logo">
+                <h1 class="auth-title" style="margin-bottom: 20px;">Prisijungimas</h1>
+                <div class="form-group">
+                    <input type="email" id="authEmail" class="form-input" placeholder="dominikphotofficial.lt@gmail.com">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="authPass" class="form-input" placeholder="Slaptažodis">
+                </div>
+                <button id="authBtn" class="btn-primary" style="width:100%; justify-content:center;">Prisijungti</button>
+                <p id="authError" style="color:var(--danger-color); font-size:0.75rem; margin-top:15px; letter-spacing:1px; text-transform:uppercase; display:none;"></p>
             </div>
-            <div class="form-group">
-                <input type="password" id="authPass" class="form-input" placeholder="Slaptažodis">
-            </div>
-            <button id="authBtn" class="btn-ui primary" style="width:100%; justify-content:center; padding:14px;">Prisijungti</button>
-            <p id="authError" style="color:var(--danger-color); font-size:0.75rem; margin-top:15px; letter-spacing:1px; text-transform:uppercase; display:none;"></p>
         </section>
 
         <section id="dashSection" class="hidden">
@@ -563,7 +75,7 @@
             </div>
 
             <div id="tabNew" class="tab-content hidden">
-                <div style="max-width: 750px; background: var(--surface-color); border: 1px solid var(--border-color); padding: clamp(25px, 4vw, 40px); margin: 0 auto;">
+                <div style="max-width: 750px; background: var(--surface-color); border: 1px solid var(--border-color); padding: clamp(25px, 4vw, 40px); margin: 0 auto; border-radius: var(--radius);">
                     <form id="createForm">
                         <div class="form-group">
                             <label class="form-label">Projekto pavadinimas</label>
@@ -573,7 +85,7 @@
                             <label class="form-label">Kategorija / Potėmė</label>
                             <input type="text" id="npSubtitle" class="form-input" placeholder="Pvz. Vasaros stovyklos fotosesija" required>
                         </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                             <div class="form-group">
                                 <label class="form-label">Kliento ID</label>
                                 <div style="display:flex; gap:8px;">
@@ -589,22 +101,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                             <div class="form-group">
                                 <label class="form-label">Fotosesijos data</label>
                                 <input type="date" id="npDate" class="form-input">
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Kliento el. paštas (nebūtina)</label>
+                                <label class="form-label">Kliento el. paštas</label>
                                 <input type="email" id="npEmail" class="form-input" placeholder="klientas@gmail.com">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">ZIP Archyvo nuoroda (nebūtina)</label>
+                            <label class="form-label">ZIP Archyvo nuoroda</label>
                             <input type="url" id="npZip" class="form-input" placeholder="https://...">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Fotosesijos istorija / Padėkos tekstas</label>
+                            <label class="form-label">Aprašymas / Tekstas</label>
                             <textarea id="npStory" class="form-input" placeholder="Dvi dienas turėjau galimybę būti kartu su..."></textarea>
                         </div>
                         <div class="form-group">
@@ -620,7 +132,7 @@
                             </div>
                             <p class="progress-caption" id="npProgressCaption">Įkeliama...</p>
                         </div>
-                        <button type="submit" class="btn-ui primary" id="npSubmitBtn" style="width:100%; justify-content:center; padding:15px; margin-top:20px;">Sukurti ir įkelti galeriją</button>
+                        <button type="submit" class="btn-primary" id="npSubmitBtn" style="width:100%; justify-content:center; margin-top:20px;">Sukurti ir įkelti galeriją</button>
                     </form>
                 </div>
             </div>
@@ -652,7 +164,7 @@
                 </div>
             </div>
 
-            <div style="background:var(--surface-color); border:1px solid var(--border-color); padding:clamp(20px, 4vw, 35px); margin-bottom:30px;">
+            <div style="background:var(--surface-color); border:1px solid var(--border-color); padding:clamp(20px, 4vw, 35px); margin-bottom:30px; border-radius: var(--radius);">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:15px; margin-bottom:25px;">
                     <div>
                         <h1 style="font-family:var(--font-heading); text-transform:uppercase; letter-spacing:3px; font-size:1.6rem; font-weight:400;" id="wsTitle"></h1>
@@ -677,7 +189,7 @@
                 <div class="photo-matrix" id="wsPhotosGrid"></div>
             </div>
 
-            <div style="max-width:750px; background:var(--surface-color); border:1px solid var(--border-color); padding:clamp(25px, 4vw, 35px);">
+            <div style="max-width:750px; background:var(--surface-color); border:1px solid var(--border-color); padding:clamp(25px, 4vw, 35px); border-radius: var(--radius);">
                 <h3 style="font-family:var(--font-heading); text-transform:uppercase; letter-spacing:2px; font-size:1.1rem; margin-bottom:20px;">Redaguoti nustatymus</h3>
                 <div class="form-group">
                     <label class="form-label">Pavadinimas</label>
@@ -687,7 +199,7 @@
                     <label class="form-label">Kategorija</label>
                     <input type="text" id="wsSetSubtitle" class="form-input">
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div class="form-group">
                         <label class="form-label">Kliento ID</label>
                         <input type="text" id="wsSetClientId" class="form-input">
@@ -697,7 +209,7 @@
                         <input type="text" id="wsSetPin" class="form-input" maxlength="6">
                     </div>
                 </div>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div class="form-group">
                         <label class="form-label">Data</label>
                         <input type="date" id="wsSetDate" class="form-input">
