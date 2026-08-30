@@ -1,122 +1,45 @@
+
 <!DOCTYPE html>
 <html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Klientų Prieiga — DP.PORTFOLIO</title>
+    <title>DP.PORTFOLIO | KLIENTŲ PORTALAS</title>
     <link rel="icon" type="image/png" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
-    <meta property="og:title" content="Klientų Galerija — DP.PORTFOLIO">
+    <meta property="og:title" content="DP.PORTFOLIO | KLIENTŲ PORTALAS">
     <meta property="og:description" content="Privati klientų fotosesijų peržiūros erdvė">
     <meta property="og:image" content="https://i.postimg.cc/Xvc3zYGK/dp-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root {
-            --bg-color: #F8F7F4;
-            --surface-color: #FFFFFF;
-            --accent-color: #113939;
-            --accent-light: #2A5C5C;
-            --accent-soft: rgba(17, 57, 57, 0.05);
-            --text-color: #1A2B2B;
-            --text-muted: rgba(26, 43, 43, 0.6);
-            --border-color: rgba(17, 57, 57, 0.12);
-            --danger-color: #9e2a2b;
-            --font-heading: 'Jost', sans-serif;
-            --font-body: 'Josefin Sans', sans-serif;
-            --radius: 2px;
-            --cb: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-body);
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-x: hidden;
-        }
-
-        #preloader {
-            position: fixed;
-            inset: 0;
-            background-color: var(--bg-color);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s var(--cb);
-        }
-
-        .spinner {
-            width: 36px;
-            height: 36px;
-            border: 2px solid rgba(17, 57, 57, 0.1);
-            border-top: 2px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-        }
-
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
-        header {
-            padding: clamp(20px, 4vw, 35px) 5vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .main-logo img {
-            height: clamp(26px, 5vw, 36px);
-            width: auto;
-            display: block;
-            transition: transform 0.4s var(--cb), opacity 0.4s var(--cb);
-        }
-
-        .main-logo img:hover {
-            opacity: 0.8;
-            transform: scale(1.03);
-        }
-
-        main {
+        #authView {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 5vw;
+            padding: 24px;
+            min-height: 85vh;
         }
 
-        .login-card {
+        .auth-card {
             width: 100%;
-            max-width: 480px;
-            text-align: center;
-            padding: clamp(35px, 6vw, 55px) clamp(20px, 5vw, 45px);
+            max-width: 440px;
             background: var(--surface-color);
             border: 1px solid var(--border-color);
-            box-shadow: 0 15px 50px rgba(17, 57, 57, 0.04);
-            opacity: 0;
-            transform: translateY(25px);
-            transition: opacity 0.8s var(--cb), transform 0.8s var(--cb);
+            padding: clamp(35px, 6vw, 55px) clamp(22px, 5vw, 40px);
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(17, 57, 57, 0.03);
         }
 
-        .login-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .auth-card-logo {
+            height: 32px;
+            width: auto;
+            margin: 0 auto 25px auto;
+            display: block;
         }
 
-        .tagline {
+        .auth-tagline {
             font-family: var(--font-heading);
             font-size: 0.75rem;
             letter-spacing: 4px;
@@ -126,38 +49,30 @@
             font-weight: 500;
         }
 
-        .login-title {
+        .auth-title {
             font-family: var(--font-heading);
             text-transform: uppercase;
             letter-spacing: 3px;
-            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-size: clamp(1.4rem, 4vw, 1.9rem);
             font-weight: 400;
-            margin-bottom: 12px;
-            line-height: 1.2;
-        }
-
-        .login-desc {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            margin-bottom: 35px;
+            margin-bottom: 28px;
         }
 
         .pin-inputs {
             display: flex;
             justify-content: center;
             gap: clamp(6px, 2vw, 12px);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .pin-cell {
-            width: clamp(42px, 12vw, 56px);
-            height: clamp(52px, 15vw, 68px);
+            width: clamp(42px, 12vw, 54px);
+            height: clamp(52px, 15vw, 64px);
             background: var(--bg-color);
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
             font-family: var(--font-heading);
-            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
             text-align: center;
             color: var(--text-color);
             outline: none;
@@ -170,87 +85,30 @@
             box-shadow: 0 0 0 1px var(--accent-color);
         }
 
-        .btn-enter {
-            width: 100%;
-            padding: 16px;
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border: 1px solid var(--accent-color);
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-enter svg {
-            width: 15px;
-            height: 15px;
-            fill: currentColor;
-            transition: transform 0.3s var(--cb);
-        }
-
-        .btn-enter:hover {
-            background: var(--accent-light);
-            border-color: var(--accent-light);
-        }
-
-        .btn-enter:hover svg {
-            transform: translateX(3px);
-        }
-
-        .btn-enter:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .error-label {
+        .auth-error {
             color: var(--danger-color);
             font-size: 0.75rem;
             letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-top: 18px;
+            margin-top: 15px;
             display: none;
-            font-weight: 500;
-        }
-
-        footer {
-            padding: 25px 5vw;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-        }
-
-        footer p {
-            font-family: var(--font-heading);
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            color: var(--text-muted);
             text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
-
     <header>
-        <a href="/" class="main-logo">
-            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO">
+        <a href="/" class="header-brand">
+            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO" class="header-logo">
+            <span class="header-title-badge">KLIENTŲ PORTALAS</span>
         </a>
     </header>
 
-    <main>
-        <div class="login-card" id="cardContainer">
-            <div class="tagline">Klientų Zona</div>
-            <h1 class="login-title">Įveskite PIN</h1>
-            <p class="login-desc" id="loginDescription">Įveskite 6 skaitmenų prieigos kodą</p>
+    <main id="authView">
+        <div class="auth-card">
+            <img src="https://i.postimg.cc/Xvc3zYGK/dp-logo.png" alt="DP.PORTFOLIO" class="auth-card-logo">
+            <div class="auth-tagline">Klientų Erdvė</div>
+            <h1 class="auth-title">Įveskite PIN</h1>
 
             <div class="pin-inputs" id="pinGroup">
                 <input type="tel" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="pin-cell" autofocus autocomplete="off">
@@ -261,12 +119,11 @@
                 <input type="tel" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="pin-cell" autocomplete="off">
             </div>
 
-            <button id="submitPinBtn" class="btn-enter">
-                <span>Atidaryti galeriją</span>
-                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            <button id="submitPinBtn" class="btn-primary">
+                <span>Atidaryti Galeriją</span>
             </button>
 
-            <p id="errorMsg" class="error-label"></p>
+            <p id="errorMsg" class="auth-error"></p>
         </div>
     </main>
 
@@ -281,14 +138,8 @@
         const cells = Array.from(document.querySelectorAll('.pin-cell'));
         const submitBtn = document.getElementById('submitPinBtn');
         const errorMsg = document.getElementById('errorMsg');
-        const cardContainer = document.getElementById('cardContainer');
-        const preloader = document.getElementById('preloader');
 
         window.addEventListener('load', async () => {
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.display = 'none', 400);
-            cardContainer.classList.add('visible');
-
             const urlParams = new URLSearchParams(window.location.search);
             const directPin = urlParams.get('pin') || window.location.hash.replace('#', '');
 
@@ -374,7 +225,7 @@
                 showError('Sistemos klaida. Bandykite vėliau.');
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.querySelector('span').innerText = 'Atidaryti galeriją';
+                submitBtn.querySelector('span').innerText = 'Atidaryti Galeriją';
             }
         }
 
